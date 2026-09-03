@@ -254,8 +254,8 @@ const EditProfile = () => {
                             formData.append('avatar', file);
                             const token = localStorage.getItem('authToken');
                             const res = await fetch(
-                              `${import.meta.env.VITE_API_URL || 'https://cadna-backend-kpgj.onrender.com'}/api/users/${userId}/avatar`,
-                              { method: 'POST', headers: { Authorization: `Bearer ${token}` }, body: formData }
+                              `${import.meta.env.VITE_API_URL || 'https://cadna-backend-htjq.onrender.com'}/api/users/${userId}/avatar`,
+                              { method: 'POST', credentials: 'include', headers: { Authorization: `Bearer ${token}` }, body: formData }
                             );
                             const data = await res.json();
                             if (!data.success) throw new Error(data.message);

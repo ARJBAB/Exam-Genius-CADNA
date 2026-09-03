@@ -464,9 +464,10 @@ const EditProfileModal = ({ profile, userId, onClose, onSaved }) => {
                         formData.append("avatar", file);
                         const token = localStorage.getItem("authToken");
                         const res = await fetch(
-                          `${import.meta.env.VITE_API_URL || "https://cadna-backend-kpgj.onrender.com"}/api/users/${userId}/avatar`,
+                          `${import.meta.env.VITE_API_URL || "https://cadna-backend-htjq.onrender.com"}/api/users/${userId}/avatar`,
                           {
                             method: "POST",
+                            credentials: "include",
                             headers: { Authorization: `Bearer ${token}` },
                             body: formData,
                           },

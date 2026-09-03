@@ -1,5 +1,5 @@
 const API_BASE_URL =
-  import.meta.env.VITE_API_URL || "https://cadna-backend-kpgj.onrender.com";
+  import.meta.env.VITE_API_URL || "https://cadna-backend-htjq.onrender.com";
 
 export const API_ENDPOINTS = {
   // Auth endpoints
@@ -72,27 +72,30 @@ class ApiClient {
       "/api/results",
       "/api/study-resources",
        "/api/ai/",
-       
+       "/api/timeline",
+
     ];
     const isAllowed = allowedPaths.some((path) => endpoint.startsWith(path));
     if (!isAllowed) {
       throw new Error("Endpoint not allowed");
     }
 
+    const { skipAuthRedirect, ...fetchOptions } = options;
+
     const url = `${this.baseURL}${endpoint}`;
     const token = localStorage.getItem("authToken");
 
     const config = {
       mode: "cors",
-      credentials: "same-origin",
+      credentials: "include",
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json",
         "X-Requested-With": "XMLHttpRequest",
         ...(token && { Authorization: `Bearer ${token}` }),
-        ...options.headers,
+        ...fetchOptions.headers,
       },
-      ...options,
+      ...fetchOptions,
     };
 
     const maxRetries = 3;
@@ -111,7 +114,11 @@ class ApiClient {
         clearTimeout(timeoutId);
 
         if (!response.ok) {
-          if (response.status === 401 && endpoint !== "/api/auth/refresh") {
+          if (
+            response.status === 401 &&
+            endpoint !== "/api/auth/refresh" &&
+            !skipAuthRedirect
+          ) {
             localStorage.removeItem("authToken");
             localStorage.removeItem("refreshToken");
             window.location.href = "/signin";

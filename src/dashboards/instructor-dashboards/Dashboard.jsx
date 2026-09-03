@@ -45,7 +45,8 @@ export default function Dashboard() {
     const fetchDashboardData = async () => {
       try {
         const token = localStorage.getItem('authToken');
-        const response = await fetch(`${import.meta.env.VITE_API_URL}/api/instructor/dashboard`, {
+        const response = await fetch(`${import.meta.env.VITE_API_URL || 'https://cadna-backend-htjq.onrender.com'}/api/instructor/dashboard`, {
+          credentials: 'include',
           headers: {
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json'
