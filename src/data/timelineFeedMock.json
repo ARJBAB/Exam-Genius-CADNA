@@ -1,0 +1,44 @@
+[
+  {
+    "id": "tl-006",
+    "caption": "Enterprise Security dashboard is live — track uptime, data center status, and support SLAs from one screen.",
+    "images": ["/landing page image.png"],
+    "createdAt": "2026-08-27T09:15:00Z",
+    "author": { "name": "AssessAcad Team", "avatarUrl": null }
+  },
+  {
+    "id": "tl-005",
+    "caption": "AI Auto Grading now supports coding challenge questions, with instant feedback for objective test cases.",
+    "images": ["/landing page image.png", "/Award.png"],
+    "createdAt": "2026-08-22T13:40:00Z",
+    "author": { "name": "Product Updates", "avatarUrl": null }
+  },
+  {
+    "id": "tl-004",
+    "caption": "New: cross-device exam sessions. Start on desktop, resume seamlessly on tablet without losing progress.",
+    "images": [],
+    "createdAt": "2026-08-15T11:05:00Z",
+    "author": { "name": "AssessAcad Team", "avatarUrl": null }
+  },
+  {
+    "id": "tl-003",
+    "caption": "We crossed 50,000 active users this month! Thank you to every institution trusting AssessAcad with their assessments.",
+    "images": ["/User.png"],
+    "createdAt": "2026-08-05T16:20:00Z",
+    "author": { "name": "AssessAcad Team", "avatarUrl": null }
+  },
+  {
+    "id": "tl-002",
+    "caption": "Real-time integrity checks upgraded with improved face detection accuracy and fewer false tab-switch alerts.",
+    "images": ["/Student.png"],
+    "createdAt": "2026-07-28T08:50:00Z",
+    "author": { "name": "Product Updates", "avatarUrl": null }
+  },
+  {
+    "id": "tl-001",
+    "caption": "AssessAcad launches Study Resource Recommendations — personalized study guides based on student performance.",
+    "images": ["/Building.png"],
+    "createdAt": "2026-07-14T10:00:00Z",
+    "author": { "name": "AssessAcad Team", "avatarUrl": null }
+  }
+]

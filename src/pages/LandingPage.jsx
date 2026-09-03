@@ -1,4 +1,7 @@
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import TimelineFeed from "../components/TimelineFeed";
+import timelineService from "../services/timelineService";
 import {
   FiCheck,
   FiUsers,
@@ -42,6 +45,36 @@ addLineClampStyles();
 
 const LandingPage = () => {
   const navigate = useNavigate();
+
+  const [timelineEntries, setTimelineEntries] = useState([]);
+  const [timelineLoading, setTimelineLoading] = useState(true);
+  const [timelineError, setTimelineError] = useState(null);
+
+  useEffect(() => {
+    let isMounted = true;
+
+    const loadTimeline = async () => {
+      setTimelineLoading(true);
+      setTimelineError(null);
+
+      const result = await timelineService.getTimeline();
+
+      if (!isMounted) return;
+
+      if (result.success) {
+        setTimelineEntries(Array.isArray(result.data) ? result.data : []);
+      } else {
+        setTimelineError(result.error || "Failed to load timeline updates.");
+      }
+      setTimelineLoading(false);
+    };
+
+    loadTimeline();
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   const features = [
     {
@@ -153,19 +186,19 @@ const LandingPage = () => {
     },
   ];
 
-  const bgColorMap = {
-    blue: "bg-blue-50",
-    purple: "bg-purple-50",
-    green: "bg-green-50",
-    orange: "bg-orange-50",
-  };
+  // const bgColorMap = {
+  //   blue: "bg-blue-50",
+  //   purple: "bg-purple-50",
+  //   green: "bg-green-50",
+  //   orange: "bg-orange-50",
+  // };
 
-  const iconColorMap = {
-    blue: "text-blue-600",
-    purple: "text-purple-600",
-    green: "text-green-600",
-    orange: "text-orange-500",
-  };
+  // const iconColorMap = {
+  //   blue: "text-blue-600",
+  //   purple: "text-purple-600",
+  //   green: "text-green-600",
+  //   orange: "text-orange-500",
+  // };
 
   return (
     <div className="min-h-screen bg-white">
@@ -199,12 +232,21 @@ const LandingPage = () => {
               >
                 How it works
               </a>
+
+              <a
+                href="#timeline"
+                className="text-gray-600 hover:text-blue-600 font-medium text-sm hover:border-b-2 hover:border-blue-600 pb-1"
+              >
+                Timeline Feed
+              </a>
+
               <a
                 href="#testimonials"
                 className="text-gray-600 hover:text-blue-600 font-medium text-sm hover:border-b-2 hover:border-blue-600 pb-1"
               >
                 Testimonials
               </a>
+
               <a
                 href="#support"
                 className="text-gray-600 hover:text-blue-600 font-medium text-sm hover:border-b-2 hover:border-blue-600 pb-1"
@@ -300,14 +342,6 @@ const LandingPage = () => {
         </div>
       </section>
 
-
-
-
-
-
-
-
-
       {/* Designed for Every Assessment Need */}
       <section className="bg-white py-6 md:py-16">
         <div>
@@ -334,11 +368,7 @@ const LandingPage = () => {
 
             <div className="flex flex-col p-6 ">
               <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mb-4">
-                <img
-                  src="/User.png"
-                  alt="Recruitment"
-                  className="w-10 h-10"
-                />
+                <img src="/User.png" alt="Recruitment" className="w-10 h-10" />
               </div>
               <h3 className="font-semibold text-gray-900 text-base mb-2">
                 Recruitment & Hiring
@@ -366,7 +396,7 @@ const LandingPage = () => {
               </p>
             </div>
           </div>
-           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mx-auto px-6 md:px-20 mt-10 divide-x divide-gray-110">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mx-auto px-6 md:px-20 mt-10 divide-x divide-gray-110">
             <div className="flex flex-col p-6 ">
               <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mb-4">
                 <img src="/Award.png" alt="Education" className="w-10 h-10" />
@@ -399,11 +429,7 @@ const LandingPage = () => {
 
             <div className="flex flex-col p-6 ">
               <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mb-4">
-                <img
-                  src="/Users.png"
-                  alt="Enterprise"
-                  className="w-10 h-10"
-                />
+                <img src="/Users.png" alt="Enterprise" className="w-10 h-10" />
               </div>
               <h3 className="font-semibold text-gray-900 text-base mb-2">
                 Enterprise & Corporate Training
@@ -800,6 +826,41 @@ const LandingPage = () => {
               Explore All Tools →
             </button>
           </div>
+        </div>
+      </section>
+
+      {/* Timeline Feed Section */}
+      <section id="timeline" className="bg-gray-50 py-6 md:py-16">
+        <div className="mx-auto px-6 md:px-20">
+          {/* Section Header */}
+          <div className="text-center mb-10">
+            <div className="inline-block bg-blue-50 text-blue-700 px-3 py-1 rounded-full text-xs font-medium mb-4">
+              Timeline Feed
+            </div>
+            <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900 mb-3">
+              Latest Updates
+            </h2>
+            <p className="text-sm md:text-base text-gray-600 max-w-2xl mx-auto">
+              Product announcements, milestones, and improvements from the
+              AssessAcad team.
+            </p>
+          </div>
+
+          {timelineLoading && (
+            <div className="flex justify-center py-10">
+              <div className="animate-spin rounded-full h-8 w-8 border-2 border-gray-200 border-t-blue-600"></div>
+            </div>
+          )}
+
+          {!timelineLoading && timelineError && (
+            <div className="text-center py-10">
+              <p className="text-gray-600">{timelineError}</p>
+            </div>
+          )}
+
+          {!timelineLoading && !timelineError && (
+            <TimelineFeed entries={timelineEntries} />
+          )}
         </div>
       </section>
 

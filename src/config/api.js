@@ -45,6 +45,9 @@ export const API_ENDPOINTS = {
   // Results endpoints
   RESULTS: "/api/results",
   RESULT_BY_EXAM: (examId) => `/api/results/${examId}`,
+
+  // Timeline feed endpoint
+  TIMELINE: "/api/timeline",
 };
 
 class ApiClient {
