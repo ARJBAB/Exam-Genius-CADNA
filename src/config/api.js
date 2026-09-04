@@ -48,6 +48,7 @@ export const API_ENDPOINTS = {
 
   // Timeline feed endpoint
   TIMELINE: "/api/timeline",
+  TIMELINE_POST: (postId) => `/api/timeline/${postId}`,
 };
 
 class ApiClient {
@@ -87,12 +88,14 @@ class ApiClient {
 
     const url = `${this.baseURL}${endpoint}`;
     const token = localStorage.getItem("authToken");
+    const isFormData =
+      typeof FormData !== "undefined" && fetchOptions.body instanceof FormData;
 
     const config = {
       mode: "cors",
       credentials: "include",
       headers: {
-        "Content-Type": "application/json",
+        ...(!isFormData && { "Content-Type": "application/json" }),
         Accept: "application/json",
         "X-Requested-With": "XMLHttpRequest",
         ...(token && { Authorization: `Bearer ${token}` }),
@@ -179,9 +182,19 @@ class ApiClient {
   }
 
   post(endpoint, data, options = {}) {
+    const isFormData = typeof FormData !== "undefined" && data instanceof FormData;
     return this.request(endpoint, {
       method: "POST",
-      body: JSON.stringify(data),
+      body: isFormData ? data : JSON.stringify(data),
+      ...options,
+    });
+  }
+
+  patch(endpoint, data, options = {}) {
+    const isFormData = typeof FormData !== "undefined" && data instanceof FormData;
+    return this.request(endpoint, {
+      method: "PATCH",
+      body: isFormData ? data : JSON.stringify(data),
       ...options,
     });
   }

@@ -4,6 +4,7 @@ import { AuthContext } from "../../context/AuthContextDefinition.js";
 import { PageLayout } from "../../components/shared";
 import ActiveDashboard from "./ActiveDashboard.jsx";
 import EmptyDashboard from "./EmptyDashboard.jsx";
+import StudentTimelineSection from "./StudentTimelineSection.jsx";
 
 //  Wrapped with React.memo — won't re-render unless user/darkMode changes
 const StudentDashboard = memo(() => {
@@ -21,6 +22,9 @@ const StudentDashboard = memo(() => {
       ) : (
         <EmptyDashboard user={user} />
       )}
+      <div className="px-4 sm:px-8">
+        <StudentTimelineSection />
+      </div>
     </PageLayout>
   );
 });
