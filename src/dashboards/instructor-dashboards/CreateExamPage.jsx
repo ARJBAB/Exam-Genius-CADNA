@@ -2,10 +2,11 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import InstructorLayout from "./InstructorLayout";
 import { FiArrowLeft, FiUpload, FiX, FiEye, FiCheck } from "react-icons/fi";
+import { useTheme } from "../../context/ThemeContext.jsx";
 
 export default function CreateExamPage() {
   const navigate = useNavigate();
-  const [darkMode, setDarkMode] = useState(false);
+  const { darkMode, setDarkMode } = useTheme();
   const [showImportModal, setShowImportModal] = useState(false);
   const [importing, setImporting] = useState(false);
   const [selectedQuestion, setSelectedQuestion] = useState("");

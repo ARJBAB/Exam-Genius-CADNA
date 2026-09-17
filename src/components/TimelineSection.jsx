@@ -1,12 +1,12 @@
 import { useContext, useEffect, useState, useCallback } from "react";
-import { useTheme } from "../../context/ThemeContext.jsx";
-import { AuthContext } from "../../context/AuthContextDefinition.js";
-import { Card, LoadingSpinner } from "../../components/shared";
-import TimelineFeed from "../../components/TimelineFeed.jsx";
-import TimelinePostModal from "../../components/TimelinePostModal.jsx";
-import timelineService from "../../services/timelineService.js";
+import { useTheme } from "../context/ThemeContext.jsx";
+import { AuthContext } from "../context/AuthContextDefinition.js";
+import { Card, LoadingSpinner } from "./shared";
+import TimelineFeed from "./TimelineFeed.jsx";
+import TimelinePostModal from "./TimelinePostModal.jsx";
+import timelineService from "../services/timelineService.js";
 
-const StudentTimelineSection = () => {
+const TimelineSection = () => {
   const { darkMode } = useTheme();
   const { user } = useContext(AuthContext);
   const currentUserId = user?._id || user?.id;
@@ -126,4 +126,4 @@ const StudentTimelineSection = () => {
   );
 };
 
-export default StudentTimelineSection;
+export default TimelineSection;

@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Sidebar from '../components/Layout/Sidebar';
 import Header from '../components/Layout/Header';
+import { useTheme } from '../context/ThemeContext.jsx';
 
 const ChatIcon = () => (
   <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#2563EB" strokeWidth="1.8">
@@ -84,10 +85,7 @@ const EmailModal = ({ onClose }) => {
 const HelpCenter = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [showEmail, setShowEmail] = useState(false);
-  const [darkMode, setDarkMode] = useState(() => {
-    try { return JSON.parse(localStorage.getItem('userPrefs') || '{}').darkMode ?? false; }
-    catch { return false; }
-  });
+  const { darkMode, toggleDarkMode } = useTheme();
   const dm = darkMode;
   const navigate = useNavigate();
 
@@ -130,10 +128,10 @@ const HelpCenter = () => {
 
   return (
     <div style={{ minHeight: '100vh', background: dm ? '#111827' : '#F9FAFB', fontFamily: 'system-ui, -apple-system, sans-serif' }}>
-      <Header onMenuToggle={() => setSidebarOpen(true)} title="Settings" darkMode={darkMode} />
+      <Header onMenuToggle={() => setSidebarOpen(true)} title="Settings" darkMode={darkMode} onDarkModeToggle={toggleDarkMode} />
 
       <div className="flex pt-16">
-        <Sidebar isOpen={sidebarOpen} userRole="student" onClose={() => setSidebarOpen(false)} />
+        <Sidebar isOpen={sidebarOpen} userRole="student" onClose={() => setSidebarOpen(false)} darkMode={darkMode} />
 
         <div className="flex-1 lg:ml-64" style={{ padding: '32px 16px' }}>
           <div style={{ maxWidth: '680px', margin: '0 auto' }}>

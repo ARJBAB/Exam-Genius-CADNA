@@ -7,6 +7,7 @@ import { PiBellThin } from "react-icons/pi";
 import { LuUser } from "react-icons/lu";
 import { HiMenu } from "react-icons/hi";
 import { IoClose } from "react-icons/io5";
+import LogoLink from "../../components/LogoLink.jsx";
 
 export default function InstructorLayout({
   children,
@@ -103,11 +104,7 @@ export default function InstructorLayout({
             />
           </button>
 
-          <img
-            src="/Logo icon.png"
-            alt="Logo"
-            className="w-16 sm:w-20 lg:w-[120px] flex-shrink-0"
-          />
+          <LogoLink className="w-16 sm:w-20 lg:w-[120px] flex-shrink-0" alt="Logo" />
 
           <h1
             className={`font-Poppins text-lg sm:text-xl lg:text-[32px] font-bold ${

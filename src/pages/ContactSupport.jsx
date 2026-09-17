@@ -3,6 +3,7 @@ import { apiClient } from '../config/api';
 import { useNavigate } from 'react-router-dom';
 import Sidebar from '../components/Layout/Sidebar';
 import Header from '../components/Layout/Header';
+import { useTheme } from '../context/ThemeContext.jsx';
 
 const formatTime = () => {
   const now = new Date();
@@ -12,10 +13,7 @@ const formatTime = () => {
 const ContactSupport = () => {
   const navigate = useNavigate();
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [darkMode] = useState(() => {
-    try { return JSON.parse(localStorage.getItem('userPrefs') || '{}').darkMode ?? false; }
-    catch { return false; }
-  });
+  const { darkMode, toggleDarkMode } = useTheme();
   const dm = darkMode;
   const [input, setInput] = useState('');
   const [messages, setMessages] = useState([
@@ -65,10 +63,10 @@ const ContactSupport = () => {
 
   return (
     <div style={{ minHeight: '100vh', background: dm ? '#111827' : '#F9FAFB', fontFamily: 'system-ui, -apple-system, sans-serif' }}>
-      <Header onMenuToggle={() => setSidebarOpen(true)} title="Support" darkMode={darkMode} />
+      <Header onMenuToggle={() => setSidebarOpen(true)} title="Support" darkMode={darkMode} onDarkModeToggle={toggleDarkMode} />
 
       <div className="flex pt-16">
-        <Sidebar isOpen={sidebarOpen} userRole="student" onClose={() => setSidebarOpen(false)} />
+        <Sidebar isOpen={sidebarOpen} userRole="student" onClose={() => setSidebarOpen(false)} darkMode={darkMode} />
 
         <div className="flex-1 lg:ml-64" style={{ padding: '24px 16px', display: 'flex', justifyContent: 'center' }}>
           <div style={{ width: '100%', maxWidth: '560px', display: 'flex', flexDirection: 'column', height: 'calc(100vh - 100px)' }}>

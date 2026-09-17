@@ -1,6 +1,9 @@
 import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import { HiOutlineMoon, HiOutlineSun } from "react-icons/hi";
 import { AuthContext } from "../context/AuthContextDefinition.js";
+import { useTheme } from "../context/ThemeContext.jsx";
+import LogoLink from "../components/LogoLink.jsx";
 
 const TwoFactorAuth = () => {
   const [code, setCode] = useState("");
@@ -8,6 +11,7 @@ const TwoFactorAuth = () => {
   const [error, setError] = useState("");
   const navigate = useNavigate();
   const { verifyTwoFA } = useContext(AuthContext);
+  const { darkMode, toggleDarkMode } = useTheme();
 
   // Check if we have a temp token for 2FA
   const tempToken = localStorage.getItem('tempToken');
@@ -63,10 +67,21 @@ const TwoFactorAuth = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4 bg-white">
+    <div className={`min-h-screen flex items-center justify-center px-4 ${darkMode ? "bg-slate-900" : "bg-white"}`}>
       <div className="absolute top-5 left-5">
-        <button onClick={() => navigate('/')} className="hover:opacity-80 transition-opacity">
-          <img src="/Logo icon.png" alt="Exam Genius" className="w-32 h-auto cursor-pointer" />
+        <LogoLink className="w-32 h-auto" alt="Exam Genius" />
+      </div>
+
+      <div className="absolute top-5 right-5">
+        <button
+          onClick={toggleDarkMode}
+          className={`p-2 rounded-full border ${
+            darkMode
+              ? "border-slate-700 hover:bg-slate-800 text-white"
+              : "border-gray-300 hover:bg-gray-100 text-gray-700"
+          }`}
+        >
+          {darkMode ? <HiOutlineSun size={20} /> : <HiOutlineMoon size={20} />}
         </button>
       </div>
 
@@ -79,33 +94,35 @@ const TwoFactorAuth = () => {
               </svg>
             </div>
           </div>
-          
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">
+
+          <h1 className={`text-3xl font-bold mb-2 ${darkMode ? "text-white" : "text-gray-900"}`}>
             Two-Factor Authentication
           </h1>
-          
-          <p className="text-gray-600 mb-6">
+
+          <p className={`mb-6 ${darkMode ? "text-slate-300" : "text-gray-600"}`}>
             Enter the 6-digit verification code sent to your registered email or phone.
           </p>
         </div>
 
-        <div className="bg-[#D9F5FF] rounded-[30px] p-8">
+        <div className={`rounded-[30px] p-8 ${darkMode ? "bg-slate-800" : "bg-[#D9F5FF]"}`}>
           <form onSubmit={handleSubmit} className="space-y-6">
             {error && (
-              <div className="p-3 bg-red-50 border border-red-200 rounded-lg">
-                <p className="text-red-600 text-sm">{error}</p>
+              <div className={`p-3 border rounded-lg ${darkMode ? "bg-red-950/40 border-red-800" : "bg-red-50 border-red-200"}`}>
+                <p className={`text-sm ${darkMode ? "text-red-400" : "text-red-600"}`}>{error}</p>
               </div>
             )}
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className={`block text-sm font-medium mb-2 ${darkMode ? "text-slate-300" : "text-gray-700"}`}>
                 Verification Code
               </label>
               <input
                 type="text"
                 value={code}
                 onChange={(e) => setCode(e.target.value.replace(/\D/g, '').slice(0, 6))}
-                className="w-full h-12 px-4 text-center text-2xl tracking-widest bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#3B82F6]"
+                className={`w-full h-12 px-4 text-center text-2xl tracking-widest border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#3B82F6] ${
+                  darkMode ? "bg-slate-700 border-slate-600 text-white placeholder-slate-400" : "bg-white border-gray-300"
+                }`}
                 placeholder="000000"
                 maxLength={6}
                 required
@@ -121,7 +138,7 @@ const TwoFactorAuth = () => {
             </button>
 
             <div className="text-center">
-              <p className="text-sm text-gray-600">
+              <p className={`text-sm ${darkMode ? "text-slate-300" : "text-gray-600"}`}>
                 Didn't receive the code?{" "}
                 <button
                   type="button"
@@ -137,7 +154,7 @@ const TwoFactorAuth = () => {
               <button
                 type="button"
                 onClick={() => navigate("/signin")}
-                className="text-sm text-gray-500 hover:text-gray-700"
+                className={`text-sm ${darkMode ? "text-slate-400 hover:text-slate-200" : "text-gray-500 hover:text-gray-700"}`}
               >
                 Back to Sign In
               </button>

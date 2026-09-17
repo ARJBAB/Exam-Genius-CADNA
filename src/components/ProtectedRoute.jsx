@@ -42,16 +42,18 @@ const ProtectedRoute = ({ children, requiredRole }) => {
       return <Navigate to={`/signin?redirect=${encodeURIComponent(location.pathname)}`} replace />;
     }
     
+    const redirectPath =
+      user.role === "admin" ? "/admin" : user.role === "instructor" ? "/instructor" : "/student";
+
     console.warn('ProtectedRoute: Role mismatch, redirecting', {
       timestamp: new Date().toISOString(),
       userId: user?.id || 'unknown',
       userRole: user.role,
       requiredRole,
       currentPath: window.location.pathname,
-      redirectPath: user.role === "instructor" ? "/instructor" : "/student"
+      redirectPath
     });
-    
-    const redirectPath = user.role === "instructor" ? "/instructor" : "/student";
+
     return <Navigate to={redirectPath} replace />;
   }
 

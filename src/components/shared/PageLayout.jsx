@@ -48,6 +48,7 @@ const PageLayout = ({
         isOpen={sidebarOpen}
         userRole={userRole}
         onClose={() => setSidebarOpen(false)}
+        darkMode={darkMode}
       />
       <main className={`lg:ml-64 pt-20 ${mainClass}`}>{children}</main>
     </div>

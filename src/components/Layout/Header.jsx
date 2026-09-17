@@ -4,20 +4,13 @@ import { IoNotificationsOutline, IoPersonOutline, IoMenuOutline } from "react-ic
 import { HiOutlineMoon, HiOutlineSun } from "react-icons/hi";
 import { useContext } from "react";
 import { AuthContext } from "../../context/AuthContextDefinition.js";
+import LogoLink from "../LogoLink.jsx";
 
 const Header = ({ onMenuToggle, title, darkMode, onDarkModeToggle }) => {
   const [showProfile, setShowProfile] = useState(false);
   const dropdownRef = useRef(null);
   const navigate = useNavigate();
-  const { user, logout } = useContext(AuthContext);
-
-  const handleLogoClick = () => {
-    if (user) {
-      navigate(user.role === 'admin' ? '/admin' : '/student');
-    } else {
-      navigate('/');
-    }
-  };
+  const { logout } = useContext(AuthContext);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -52,9 +45,7 @@ const Header = ({ onMenuToggle, title, darkMode, onDarkModeToggle }) => {
             <IoMenuOutline size={20} />
           </button>
           <div className="hidden lg:flex items-center">
-            <button onClick={handleLogoClick} className="flex items-center">
-              <img src="/Logo icon.png" alt="Exam Genius" className="h-8 flex-shrink-0 hover:opacity-80 transition-opacity cursor-pointer" />
-            </button>
+            <LogoLink className="h-8 flex-shrink-0" alt="Exam Genius" />
           </div>
           <div className="lg:hidden">
             <h1 className={`text-lg font-Poppins font-semibold ${

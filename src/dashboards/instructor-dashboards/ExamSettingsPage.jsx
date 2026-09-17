@@ -2,10 +2,11 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import InstructorLayout from "./InstructorLayout";
 import { FiArrowLeft } from "react-icons/fi";
+import { useTheme } from "../../context/ThemeContext.jsx";
 
 export default function ExamSettingsPage() {
   const navigate = useNavigate();
-  const [darkMode, setDarkMode] = useState(false);
+  const { darkMode, setDarkMode } = useTheme();
   const [settings, setSettings] = useState({
     shuffleQuestions: false,
     shuffleOptions: false,

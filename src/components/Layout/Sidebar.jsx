@@ -1,14 +1,19 @@
+import { useState } from "react";
 import { NavLink, useNavigate, useLocation } from "react-router-dom";
-import { 
-  IoHomeOutline, 
-  IoDocumentTextOutline, 
-  IoStatsChartOutline, 
+import {
+  IoHomeOutline,
+  IoDocumentTextOutline,
+  IoStatsChartOutline,
   IoSettingsOutline,
-  IoPeopleOutline,
-  IoCreateOutline,
   IoLibraryOutline,
   IoChatbubbleOutline,
-  IoLogOutOutline
+  IoLogOutOutline,
+  IoPeopleOutline,
+  IoShieldCheckmarkOutline,
+  IoEyeOutline,
+  IoCardOutline,
+  IoRibbonOutline,
+  IoChevronDownOutline
 } from "react-icons/io5";
 import { useContext } from "react";
 import { AuthContext } from "../../context/AuthContextDefinition.js";
@@ -38,61 +43,165 @@ const Sidebar = ({ isOpen, userRole = "student", onClose, darkMode }) => {
 
   const adminLinks = [
     { to: "/admin", icon: IoHomeOutline, label: "Dashboard" },
-    { to: "/admin/exams", icon: IoCreateOutline, label: "Manage Exams" },
-    { to: "/admin/students", icon: IoPeopleOutline, label: "Students" },
-    { to: "/admin/analytics", icon: IoStatsChartOutline, label: "Analytics" },
+    {
+      icon: IoPeopleOutline,
+      label: "User Management",
+      children: [{ to: "/admin/users", label: "All Users" }]
+    },
+    {
+      icon: IoShieldCheckmarkOutline,
+      label: "Admin Management",
+      children: [
+        { to: "/admin/management/users", label: "Users" },
+        { to: "/admin/management/roles", label: "Roles" }
+      ]
+    },
+    { to: "/admin/proctoring", icon: IoEyeOutline, label: "AI - Proctoring Reports" },
+    {
+      icon: IoCardOutline,
+      label: "Payments & Subscription",
+      children: [{ to: "/admin/payments", label: "Overview" }]
+    },
+    { to: "/admin/certification", icon: IoRibbonOutline, label: "Certification & Verification" },
     { to: "/admin/settings", icon: IoSettingsOutline, label: "Settings" }
   ];
 
   const links = userRole === "admin" ? adminLinks : studentLinks;
 
+  const isChildActive = (children) =>
+    children.some(
+      (child) => location.pathname === child.to || location.pathname.startsWith(child.to)
+    );
+
+  const [openDropdowns, setOpenDropdowns] = useState(() => {
+    const initial = new Set();
+    links.forEach((item) => {
+      if (item.children && isChildActive(item.children)) {
+        initial.add(item.label);
+      }
+    });
+    return initial;
+  });
+
+  const toggleDropdown = (label) => {
+    setOpenDropdowns((prev) => {
+      const next = new Set(prev);
+      if (next.has(label)) {
+        next.delete(label);
+      } else {
+        next.add(label);
+      }
+      return next;
+    });
+  };
+
   // Mobile open background: dark or light
-  const mobileOpenBg   = dm ? "bg-gray-900 border-gray-700" : "bg-white border-gray-200";
+  const mobileOpenBg   = dm ? "bg-slate-900 border-slate-800" : "bg-white border-gray-200";
   const mobileTextBase = dm ? "text-gray-200" : "text-gray-700";
-  const mobileHover    = dm ? "hover:bg-gray-700 hover:text-white" : "hover:bg-gray-100 hover:text-gray-900";
-  const mobileActive   = dm ? "bg-gray-700 text-white" : "bg-blue-100 text-blue-600";
+  const mobileHover    = dm ? "hover:bg-slate-800 hover:text-white" : "hover:bg-gray-100 hover:text-gray-900";
+  const mobileActive   = dm ? "bg-indigo-600 text-white" : "bg-blue-100 text-blue-600";
+
+  // Desktop background: navy in dark mode, blue in light mode
+  const desktopBg     = dm ? "lg:bg-slate-900 lg:border-slate-800" : "lg:bg-blue-500 lg:border-blue-600";
+  const desktopHover  = dm ? "hover:bg-slate-800 hover:text-white" : "hover:bg-black hover:bg-opacity-20 hover:text-white";
+  const desktopActive = dm ? "bg-indigo-600 text-white" : "bg-black bg-opacity-30 text-white";
+
+  const closeOnMobile = () => window.innerWidth < 1024 && onClose && onClose();
+
+  const linkClassName = (active) =>
+    `flex items-center space-x-3 px-6 py-3 transition-colors ${
+      active
+        ? isOpen
+          ? mobileActive
+          : desktopActive
+        : isOpen
+          ? `${mobileTextBase} ${mobileHover}`
+          : `text-white text-opacity-80 ${desktopHover}`
+    }`;
 
   return (
     <>
       {/* Mobile overlay */}
       {isOpen && (
-        <div 
+        <div
           className="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden"
           onClick={onClose}
         />
       )}
-      
+
       {/* Sidebar */}
-      <aside 
+      <aside
         className={`
           fixed top-16 bottom-0 left-0 z-50
           shadow-lg border-r
           transition-transform duration-300 ease-in-out
           w-64
-          ${isOpen 
-            ? `translate-x-0 ${mobileOpenBg}` 
-            : "-translate-x-full lg:translate-x-0 lg:bg-blue-500 lg:border-blue-600"
+          ${isOpen
+            ? `translate-x-0 ${mobileOpenBg}`
+            : `-translate-x-full lg:translate-x-0 ${desktopBg}`
           }
         `}
       >
         <nav className="space-y-2 flex-1 overflow-y-auto h-full flex flex-col pt-4">
           <div className="flex-1">
-            {links.map(({ to, icon: Icon, label }) => {
+            {links.map((item) => {
+              if (item.children) {
+                const Icon = item.icon;
+                const expanded = openDropdowns.has(item.label);
+                const active = isChildActive(item.children);
+                return (
+                  <div key={item.label}>
+                    <button
+                      type="button"
+                      onClick={() => toggleDropdown(item.label)}
+                      className={`w-full ${linkClassName(active)} justify-between`}
+                    >
+                      <span className="flex items-center space-x-3">
+                        <Icon size={20} />
+                        <span className="font-medium">{item.label}</span>
+                      </span>
+                      <IoChevronDownOutline
+                        size={16}
+                        className={`transition-transform ${expanded ? "rotate-180" : ""}`}
+                      />
+                    </button>
+                    {expanded && (
+                      <div className="space-y-1">
+                        {item.children.map((child) => {
+                          const childActive = location.pathname === child.to || location.pathname.startsWith(child.to);
+                          return (
+                            <NavLink
+                              key={child.to}
+                              to={child.to}
+                              onClick={closeOnMobile}
+                              className={`block pl-14 pr-6 py-2 text-sm transition-colors ${
+                                childActive
+                                  ? isOpen
+                                    ? mobileActive
+                                    : desktopActive
+                                  : isOpen
+                                    ? `${mobileTextBase} ${mobileHover}`
+                                    : `text-white text-opacity-80 ${desktopHover}`
+                              }`}
+                            >
+                              {child.label}
+                            </NavLink>
+                          );
+                        })}
+                      </div>
+                    )}
+                  </div>
+                );
+              }
+
+              const { to, icon: Icon, label } = item;
               const isActive = location.pathname === to || (to !== `/${userRole}` && location.pathname.startsWith(to));
               return (
                 <NavLink
                   key={to}
                   to={to}
-                  onClick={() => window.innerWidth < 1024 && onClose && onClose()}
-                  className={`flex items-center space-x-3 px-6 py-3 transition-colors ${
-                    isActive
-                      ? isOpen
-                        ? mobileActive
-                        : "bg-black bg-opacity-30 text-white"
-                      : isOpen
-                        ? `${mobileTextBase} ${mobileHover}`
-                        : "text-white text-opacity-80 hover:bg-black hover:bg-opacity-20 hover:text-white"
-                  }`}
+                  onClick={closeOnMobile}
+                  className={linkClassName(isActive)}
                 >
                   <Icon size={20} />
                   <span className="font-medium">{label}</span>
@@ -100,14 +209,14 @@ const Sidebar = ({ isOpen, userRole = "student", onClose, darkMode }) => {
               );
             })}
           </div>
-          
+
           {/* Logout at bottom */}
           <button
             onClick={handleLogout}
             className={`flex items-center space-x-3 px-6 py-3 transition-colors mt-auto ${
-              isOpen 
+              isOpen
                 ? `${mobileTextBase} ${mobileHover}`
-                : "text-white text-opacity-80 hover:bg-black hover:bg-opacity-20 hover:text-white"
+                : `text-white text-opacity-80 ${desktopHover}`
             }`}
           >
             <IoLogOutOutline size={20} />

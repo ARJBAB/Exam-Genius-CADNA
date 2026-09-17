@@ -1,8 +1,11 @@
 import { useNavigate, useLocation } from 'react-router-dom';
+import { useTheme } from '../context/ThemeContext.jsx';
 
-const LogoLink = ({ className = "h-8", src = "/bigger%20logo.png", alt = "Exam Genius" }) => {
+const LogoLink = ({ className = "h-8", src, alt = "Exam Genius" }) => {
   const navigate = useNavigate();
   const location = useLocation();
+  const { darkMode } = useTheme();
+  const logoSrc = src || (darkMode ? "/Logo icon white.png" : "/Logo icon.png");
 
   const handleLogoClick = () => {
     const currentPath = location.pathname;
@@ -38,9 +41,9 @@ const LogoLink = ({ className = "h-8", src = "/bigger%20logo.png", alt = "Exam G
   const isExamInProgress = location.pathname.includes('/exam/') && (location.pathname.includes('/taking') || location.pathname.includes('/review'));
 
   return (
-    <img 
-      src={src} 
-      alt={alt} 
+    <img
+      src={logoSrc}
+      alt={alt}
       className={`${className} ${isExamInProgress ? '' : 'cursor-pointer hover:opacity-80 transition-opacity'}`}
       onClick={isExamInProgress ? undefined : handleLogoClick}
     />

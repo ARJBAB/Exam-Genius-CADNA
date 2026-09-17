@@ -5,6 +5,8 @@ import Header from "../../components/Layout/Header.jsx";
 import { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContextDefinition.js";
+import { useTheme } from "../../context/ThemeContext.jsx";
+import TimelineSection from "../../components/TimelineSection.jsx";
 
 import { FiClock } from "react-icons/fi";
 import { TbAlertTriangle } from "react-icons/tb";
@@ -18,7 +20,7 @@ export default function Dashboard() {
 
   // Safely get username
   const userName = user?.firstName || user?.name || "Instructor";
-  const [darkMode, setDarkMode] = useState(false);
+  const { darkMode, toggleDarkMode: toggleGlobalDarkMode } = useTheme();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
   const [loading, setLoading] = useState(true);
@@ -104,7 +106,7 @@ export default function Dashboard() {
   };
 
   const toggleDarkMode = () => {
-    setDarkMode(!darkMode);
+    toggleGlobalDarkMode();
     if (!darkMode) {
       document.documentElement.classList.add("dark");
     } else {
@@ -296,6 +298,10 @@ export default function Dashboard() {
               </div>
             </>
           )}
+
+          <div className="mt-8 lg:mt-12">
+            <TimelineSection />
+          </div>
         </div>
       </div>
     </div>

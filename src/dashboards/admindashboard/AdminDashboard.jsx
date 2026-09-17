@@ -2,6 +2,8 @@ import { useState, useContext } from "react";
 import Header from "../../components/Layout/Header";
 import Sidebar from "../../components/Layout/Sidebar";
 import { AuthContext } from "../../context/AuthContextDefinition.js";
+import { useTheme } from "../../context/ThemeContext.jsx";
+import TimelineSection from "../../components/TimelineSection.jsx";
 import { IoPeopleOutline, IoDocumentTextOutline, IoStatsChartOutline, IoCheckmarkCircleOutline } from "react-icons/io5";
 
 const ActivityItem = ({ activity }) => {
@@ -29,6 +31,7 @@ const ActivityItem = ({ activity }) => {
 const AdminDashboard = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const { user } = useContext(AuthContext);
+  const { darkMode, toggleDarkMode } = useTheme();
   
   const stats = [
     { label: "Total Students", value: "1,247", icon: IoPeopleOutline, color: "bg-blue-500" },
@@ -45,9 +48,14 @@ const AdminDashboard = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <Header onMenuToggle={() => setSidebarOpen(!sidebarOpen)} title="Dashboard" />
-      <Sidebar isOpen={sidebarOpen} userRole="admin" onClose={() => setSidebarOpen(false)} />
+    <div className={`min-h-screen ${darkMode ? "bg-gray-900" : "bg-gray-50"}`}>
+      <Header
+        onMenuToggle={() => setSidebarOpen(!sidebarOpen)}
+        title="Dashboard"
+        darkMode={darkMode}
+        onDarkModeToggle={toggleDarkMode}
+      />
+      <Sidebar isOpen={sidebarOpen} userRole="admin" onClose={() => setSidebarOpen(false)} darkMode={darkMode} />
       
       <main className="lg:ml-64 p-4 sm:p-6 pt-24">
           <div className="mb-6 sm:mb-8">
@@ -123,6 +131,10 @@ const AdminDashboard = () => {
                 </div>
               </div>
             </div>
+          </div>
+
+          <div className="mt-6 sm:mt-8">
+            <TimelineSection />
           </div>
         </main>
     </div>

@@ -4,14 +4,12 @@ import { IoPersonOutline } from 'react-icons/io5';
 import Sidebar from '../components/Layout/Sidebar';
 import Header from '../components/Layout/Header';
 import { apiClient, API_ENDPOINTS } from '../config/api';
+import { useTheme } from '../context/ThemeContext.jsx';
 
 const EditProfile = () => {
   const navigate = useNavigate();
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [darkMode] = useState(() => {
-    try { return JSON.parse(localStorage.getItem('userPrefs') || '{}').darkMode ?? false; }
-    catch { return false; }
-  });
+  const { darkMode, toggleDarkMode } = useTheme();
   const dm = darkMode;
 
   const [userId, setUserId] = useState(null);
@@ -171,10 +169,10 @@ const EditProfile = () => {
   return (
     <div style={{ minHeight: '100vh', background: dm ? '#111827' : '#F9FAFB', fontFamily: 'system-ui, -apple-system, sans-serif' }}>
       <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
-      <Header onMenuToggle={() => setSidebarOpen(true)} title="Settings" darkMode={darkMode} />
+      <Header onMenuToggle={() => setSidebarOpen(true)} title="Settings" darkMode={darkMode} onDarkModeToggle={toggleDarkMode} />
 
       <div className="flex pt-16">
-        <Sidebar isOpen={sidebarOpen} userRole="student" onClose={() => setSidebarOpen(false)} />
+        <Sidebar isOpen={sidebarOpen} userRole="student" onClose={() => setSidebarOpen(false)} darkMode={darkMode} />
 
         <div className="flex-1 lg:ml-64" style={{ padding: '32px 16px' }}>
           <div style={{ maxWidth: '700px', margin: '0 auto' }}>

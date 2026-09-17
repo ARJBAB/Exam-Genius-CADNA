@@ -1,7 +1,10 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import TimelineFeed from "../components/TimelineFeed";
+import LogoLink from "../components/LogoLink.jsx";
 import timelineService from "../services/timelineService";
+import { useTheme } from "../context/ThemeContext.jsx";
+import { HiOutlineMoon, HiOutlineSun } from "react-icons/hi";
 import {
   FiCheck,
   FiUsers,
@@ -45,6 +48,7 @@ addLineClampStyles();
 
 const LandingPage = () => {
   const navigate = useNavigate();
+  const { darkMode, toggleDarkMode } = useTheme();
 
   const [timelineEntries, setTimelineEntries] = useState([]);
   const [timelineLoading, setTimelineLoading] = useState(true);
@@ -184,6 +188,16 @@ const LandingPage = () => {
       description:
         "Easily create and grade diverse exam types, including multiple choice (MCQ), essay, and coding questions to perfectly match your curriculum needs.",
     },
+    {
+      title: "Opportunities",
+      description:
+        "Connect learners and professionals to real exams, scholarships, and certification pathways that open doors to their next opportunity.",
+    },
+    {
+      title: "Practical Support Tools",
+      description:
+        "Hands-on resources, study guides, practice tests, and preparation tools that help users walk in ready and succeed.",
+    },
   ];
 
   // const bgColorMap = {
@@ -201,22 +215,15 @@ const LandingPage = () => {
   // };
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className={darkMode ? "min-h-screen bg-slate-900" : "min-h-screen bg-white"}>
       {/* Navigation */}
-      <header className="fixed top-0 left-0 right-0 bg-white border-b border-gray-100 z-50 h-16">
+      <header className={`fixed top-0 left-0 right-0 border-b z-50 h-16 ${
+        darkMode ? "bg-slate-900 border-slate-800" : "bg-white border-gray-100"
+      }`}>
         <div className="mx-auto px-6 md:px-20">
           <div className="flex items-center justify-between h-16">
             {/* Logo */}
-            <div
-              className="flex items-center space-x-2 cursor-pointer"
-              onClick={() => navigate("/")}
-            >
-              <img
-                src="/Logo icon.png"
-                alt="Assess Acad"
-                className="w-15 h-8"
-              />
-            </div>
+            <LogoLink className="w-15 h-8" alt="Assess Acad" />
 
             {/* Navigation Links */}
             <nav className="hidden md:flex items-center space-x-8">
@@ -228,46 +235,68 @@ const LandingPage = () => {
               </a>
               <a
                 href="#how-it-works"
-                className="text-gray-600 hover:text-blue-600 font-medium text-sm hover:border-b-2 hover:border-blue-600 pb-1"
+                className={`font-medium text-sm hover:border-b-2 hover:border-blue-600 pb-1 ${
+                  darkMode ? "text-slate-300 hover:text-blue-400" : "text-gray-600 hover:text-blue-600"
+                }`}
               >
                 How it works
               </a>
 
               <a
                 href="#timeline"
-                className="text-gray-600 hover:text-blue-600 font-medium text-sm hover:border-b-2 hover:border-blue-600 pb-1"
+                className={`font-medium text-sm hover:border-b-2 hover:border-blue-600 pb-1 ${
+                  darkMode ? "text-slate-300 hover:text-blue-400" : "text-gray-600 hover:text-blue-600"
+                }`}
               >
                 Timeline Feed
               </a>
 
               <a
                 href="#testimonials"
-                className="text-gray-600 hover:text-blue-600 font-medium text-sm hover:border-b-2 hover:border-blue-600 pb-1"
+                className={`font-medium text-sm hover:border-b-2 hover:border-blue-600 pb-1 ${
+                  darkMode ? "text-slate-300 hover:text-blue-400" : "text-gray-600 hover:text-blue-600"
+                }`}
               >
                 Testimonials
               </a>
 
               <a
                 href="#support"
-                className="text-gray-600 hover:text-blue-600 font-medium text-sm hover:border-b-2 hover:border-blue-600 pb-1"
+                className={`font-medium text-sm hover:border-b-2 hover:border-blue-600 pb-1 ${
+                  darkMode ? "text-slate-300 hover:text-blue-400" : "text-gray-600 hover:text-blue-600"
+                }`}
               >
                 Support
               </a>
             </nav>
 
-            {/* Sign In Button */}
-            <button
-              onClick={() => navigate("/signin")}
-              className="bg-blue-600 text-white px-8 py-3 rounded-lg hover:bg-blue-700 font-medium"
-            >
-              Sign In
-            </button>
+            <div className="flex items-center space-x-3">
+              {/* Dark Mode Toggle */}
+              <button
+                onClick={toggleDarkMode}
+                className={`p-2 rounded-full border ${
+                  darkMode
+                    ? "border-slate-700 hover:bg-slate-800 text-white"
+                    : "border-gray-300 hover:bg-gray-100 text-gray-700"
+                }`}
+              >
+                {darkMode ? <HiOutlineSun size={20} /> : <HiOutlineMoon size={20} />}
+              </button>
+
+              {/* Sign In Button */}
+              <button
+                onClick={() => navigate("/signin")}
+                className="bg-blue-600 text-white px-8 py-3 rounded-lg hover:bg-blue-700 font-medium"
+              >
+                Sign In
+              </button>
+            </div>
           </div>
         </div>
       </header>
 
       {/* Hero Section */}
-      <section id="home" className="bg-white py-6 md:py-16 mt-16">
+      <section id="home" className={`py-6 md:py-16 mt-16 ${darkMode ? "bg-slate-900" : "bg-white"}`}>
         <div className="mx-auto px-6 md:px-20">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
             {/* Left Column - Text Content */}
@@ -281,7 +310,9 @@ const LandingPage = () => {
               </div>
 
               {/* Primary Headline */}
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-gray-900 leading-tight mb-4">
+              <h1 className={`text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight mb-4 ${
+                darkMode ? "text-white" : "text-gray-900"
+              }`}>
                 Revolutionize
                 <br />
                 Assessments with AI-
@@ -290,7 +321,9 @@ const LandingPage = () => {
               </h1>
 
               {/* Supporting Description */}
-              <p className="text-base md:text-lg text-gray-600 mb-6 max-w-lg leading-relaxed">
+              <p className={`text-base md:text-lg mb-6 max-w-lg leading-relaxed ${
+                darkMode ? "text-slate-300" : "text-gray-600"
+              }`}>
                 Conduct secure, intelligent exams with real-time proctoring,
                 automated grading and comprehensive analytics. Transform how you
                 assess knowledge.
@@ -320,7 +353,7 @@ const LandingPage = () => {
       </section>
 
       {/* Social Proof Strip */}
-      <section className="bg-[#D9F5FF] py-6 md:py-16">
+      <section className={`py-6 md:py-16 ${darkMode ? "bg-slate-800" : "bg-[#D9F5FF]"}`}>
         <div className="mx-auto px-6 text-center">
           {/* User Avatars */}
           <div className="flex items-center justify-center -space-x-3 mb-3">
@@ -331,24 +364,28 @@ const LandingPage = () => {
           </div>
 
           {/* Primary Metric Text */}
-          <p className="text-xl md:text-2xl font-bold text-gray-900 mb-1">
+          <p className={`text-xl md:text-2xl font-bold mb-1 ${darkMode ? "text-white" : "text-gray-900"}`}>
             50,000+ active users
           </p>
 
           {/* Secondary Text */}
-          <p className="text-sm md:text-base text-gray-600">
+          <p className={`text-sm md:text-base ${darkMode ? "text-slate-300" : "text-gray-600"}`}>
             Join users worldwide
           </p>
         </div>
       </section>
 
       {/* Designed for Every Assessment Need */}
-      <section className="bg-white py-6 md:py-16">
+      <section className={`py-6 md:py-16 ${darkMode ? "bg-slate-900" : "bg-white"}`}>
         <div>
-          <h2 className="mx-auto px-6 md:px-20 mt-6 text-center font-extrabold text-4xl">
+          <h2 className={`mx-auto px-6 md:px-20 mt-6 text-center font-extrabold text-4xl ${
+            darkMode ? "text-white" : "text-gray-900"
+          }`}>
             Designed for Every Assessment Need
           </h2>
-          <p className="mx-auto px-6 md:px-20 mt-4 text-center text-gray-600 w-full md:w-2/3 lg:w-1/2 text-sm">
+          <p className={`mx-auto px-6 md:px-20 mt-4 text-center w-full md:w-2/3 lg:w-1/2 text-sm ${
+            darkMode ? "text-slate-300" : "text-gray-600"
+          }`}>
             From classrooms to boardrooms. AssessAcad powers secure, intelligent
             assessments across industries worldwide.
           </p>
@@ -361,10 +398,10 @@ const LandingPage = () => {
                   className="w-10 h-10"
                 />
               </div>
-              <h3 className="font-semibold text-gray-900 text-base mb-2">
+              <h3 className={`font-semibold text-base mb-2 ${darkMode ? "text-white" : "text-gray-900"}`}>
                 Certifications
               </h3>
-              <p className="text-sm text-gray-600 leading-relaxed">
+              <p className={`text-sm leading-relaxed ${darkMode ? "text-slate-300" : "text-gray-600"}`}>
                 Professional certification bodies delivering secure,
                 standards-based competency assessments.
               </p>
@@ -378,10 +415,10 @@ const LandingPage = () => {
                   className="w-10 h-10"
                 />
               </div>
-              <h3 className="font-semibold text-gray-900 text-base mb-2">
+              <h3 className={`font-semibold text-base mb-2 ${darkMode ? "text-white" : "text-gray-900"}`}>
                 Scholarships
               </h3>
-              <p className="text-sm text-gray-600 leading-relaxed">
+              <p className={`text-sm leading-relaxed ${darkMode ? "text-slate-300" : "text-gray-600"}`}>
                 Scholarship programs and awarding bodies running fair,
                 merit-based selection assessments.
               </p>
@@ -395,10 +432,10 @@ const LandingPage = () => {
                   className="w-10 h-10"
                 />
               </div>
-              <h3 className="font-semibold text-gray-900 text-base mb-2">
+              <h3 className={`font-semibold text-base mb-2 ${darkMode ? "text-white" : "text-gray-900"}`}>
                 Charity & Philanthropy
               </h3>
-              <p className="text-sm text-gray-600 leading-relaxed">
+              <p className={`text-sm leading-relaxed ${darkMode ? "text-slate-300" : "text-gray-600"}`}>
                 Nonprofits and philanthropic organizations assessing grant
                 applicants, volunteers, and program impact.
               </p>
@@ -412,10 +449,10 @@ const LandingPage = () => {
                   className="w-10 h-10"
                 />
               </div>
-              <h3 className="font-semibold text-gray-900 text-base mb-2">
+              <h3 className={`font-semibold text-base mb-2 ${darkMode ? "text-white" : "text-gray-900"}`}>
                 CBT (Local & International) Training
               </h3>
-              <p className="text-sm text-gray-600 leading-relaxed">
+              <p className={`text-sm leading-relaxed ${darkMode ? "text-slate-300" : "text-gray-600"}`}>
                 Local and international training centers delivering secure
                 computer-based testing at scale.
               </p>
@@ -425,10 +462,10 @@ const LandingPage = () => {
               <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mb-4">
                 <img src="/Student.png" alt="Education" className="w-10 h-10" />
               </div>
-              <h3 className="font-semibold text-gray-900 text-base mb-2">
+              <h3 className={`font-semibold text-base mb-2 ${darkMode ? "text-white" : "text-gray-900"}`}>
                 Education
               </h3>
-              <p className="text-sm text-gray-600 leading-relaxed">
+              <p className={`text-sm leading-relaxed ${darkMode ? "text-slate-300" : "text-gray-600"}`}>
                 Schools, colleges, and academic institutions delivering
                 comprehensive student assessments and exams.
               </p>
@@ -438,13 +475,13 @@ const LandingPage = () => {
       </section>
 
       {/* How It Works Section */}
-      <section id="how-it-works" className="bg-gray-50 py-6 md:py-16">
+      <section id="how-it-works" className={`py-6 md:py-16 ${darkMode ? "bg-slate-800" : "bg-gray-50"}`}>
         <div className="mx-auto px-6 md:px-20">
           <div className="text-center mb-6">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-3">
+            <h2 className={`text-3xl md:text-4xl font-bold mb-3 ${darkMode ? "text-white" : "text-gray-900"}`}>
               How It Works
             </h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            <p className={`text-lg max-w-2xl mx-auto ${darkMode ? "text-slate-300" : "text-gray-600"}`}>
               Simple, secure, and intelligent assessment process in four easy
               steps
             </p>
@@ -454,7 +491,7 @@ const LandingPage = () => {
             {steps.map((step, index) => (
               <div
                 key={index}
-                className="text-center bg-white rounded-xl p-4 shadow-sm"
+                className={`text-center rounded-xl p-4 shadow-sm ${darkMode ? "bg-slate-900" : "bg-white"}`}
               >
                 <div className="w-full flex justify-center mb-3">
                   <div
@@ -464,14 +501,16 @@ const LandingPage = () => {
                   </div>
                 </div>
                 <div className="w-full mb-3">
-                  <span className="inline-block bg-gray-200 text-gray-700 text-sm font-medium px-3 py-1 rounded-full">
+                  <span className={`inline-block text-sm font-medium px-3 py-1 rounded-full ${
+                    darkMode ? "bg-slate-700 text-slate-200" : "bg-gray-200 text-gray-700"
+                  }`}>
                     Step {index + 1}
                   </span>
                 </div>
-                <h3 className="w-full text-lg font-semibold text-gray-900 mb-2">
+                <h3 className={`w-full text-lg font-semibold mb-2 ${darkMode ? "text-white" : "text-gray-900"}`}>
                   {step.title}
                 </h3>
-                <p className="w-full text-sm text-gray-600 leading-relaxed">
+                <p className={`w-full text-sm leading-relaxed ${darkMode ? "text-slate-300" : "text-gray-600"}`}>
                   {step.description}
                 </p>
               </div>
@@ -481,13 +520,13 @@ const LandingPage = () => {
       </section>
 
       {/* Why Choose Us */}
-      <section className="bg-white py-6 md:py-16">
+      <section className={`py-6 md:py-16 ${darkMode ? "bg-slate-900" : "bg-white"}`}>
         <div className="mx-auto px-6 md:px-20">
           <div className="text-center mb-6">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-3">
+            <h2 className={`text-3xl md:text-4xl font-bold mb-3 ${darkMode ? "text-white" : "text-gray-900"}`}>
               Why Choose assess acad?
             </h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            <p className={`text-lg max-w-2xl mx-auto ${darkMode ? "text-slate-300" : "text-gray-600"}`}>
               Built for reliability, security, and performance at scale
             </p>
           </div>
@@ -502,10 +541,12 @@ const LandingPage = () => {
                     <FiCheck className="w-5 h-5 text-green-600 relative z-10" />
                   </div>
                   <div>
-                    <h3 className="font-semibold text-gray-900 mb-1">
+                    <h3 className={`font-semibold mb-1 ${darkMode ? "text-white" : "text-gray-900"}`}>
                       {benefit.title}
                     </h3>
-                    <p className="text-gray-600 leading-relaxed border-b border-gray-200 pb-2">
+                    <p className={`leading-relaxed pb-2 border-b ${
+                      darkMode ? "text-slate-300 border-slate-700" : "text-gray-600 border-gray-200"
+                    }`}>
                       {benefit.description}
                     </p>
                   </div>
@@ -519,31 +560,41 @@ const LandingPage = () => {
               <div className="absolute inset-0 bg-blue-100 rounded-2xl transform rotate-3 w-96 h-96"></div>
 
               {/* Main card */}
-              <div className="relative bg-white rounded-2xl p-8 shadow-lg border border-gray-100 w-96 h-96">
+              <div className={`relative rounded-2xl p-8 shadow-lg border w-96 h-96 ${
+                darkMode ? "bg-slate-800 border-slate-700" : "bg-white border-gray-100"
+              }`}>
                 <div className="text-center mb-6">
                   <div className="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
                     <FiShield className="w-8 h-8 text-white" />
                   </div>
-                  <h3 className="text-xl font-bold text-gray-900">
+                  <h3 className={`text-xl font-bold ${darkMode ? "text-white" : "text-gray-900"}`}>
                     Enterprise Security
                   </h3>
-                  <p className="text-gray-600 mt-2 border-b border-gray-200 pb-2">
+                  <p className={`mt-2 pb-2 border-b ${
+                    darkMode ? "text-slate-300 border-slate-700" : "text-gray-600 border-gray-200"
+                  }`}>
                     Bank-level encryption and compliance
                   </p>
                 </div>
 
                 <div className="space-y-4">
-                  <div className="flex items-center justify-between py-2 border-b border-gray-100">
-                    <span className="text-gray-600">Uptime Guarantee</span>
-                    <span className="font-semibold text-gray-900">99.9%</span>
+                  <div className={`flex items-center justify-between py-2 border-b ${
+                    darkMode ? "border-slate-700" : "border-gray-100"
+                  }`}>
+                    <span className={darkMode ? "text-slate-300" : "text-gray-600"}>Uptime Guarantee</span>
+                    <span className={`font-semibold ${darkMode ? "text-white" : "text-gray-900"}`}>99.9%</span>
                   </div>
-                  <div className="flex items-center justify-between py-2 border-b border-gray-100">
-                    <span className="text-gray-600">Data Centers</span>
-                    <span className="font-semibold text-gray-900">Global</span>
+                  <div className={`flex items-center justify-between py-2 border-b ${
+                    darkMode ? "border-slate-700" : "border-gray-100"
+                  }`}>
+                    <span className={darkMode ? "text-slate-300" : "text-gray-600"}>Data Centers</span>
+                    <span className={`font-semibold ${darkMode ? "text-white" : "text-gray-900"}`}>Global</span>
                   </div>
-                  <div className="flex items-center justify-between py-2 border-b border-gray-100">
-                    <span className="text-gray-600">Support</span>
-                    <span className="font-semibold text-gray-900">24/7</span>
+                  <div className={`flex items-center justify-between py-2 border-b ${
+                    darkMode ? "border-slate-700" : "border-gray-100"
+                  }`}>
+                    <span className={darkMode ? "text-slate-300" : "text-gray-600"}>Support</span>
+                    <span className={`font-semibold ${darkMode ? "text-white" : "text-gray-900"}`}>24/7</span>
                   </div>
                 </div>
               </div>
@@ -553,13 +604,13 @@ const LandingPage = () => {
       </section>
 
       {/* Everything You Need Section */}
-      <section className="bg-white py-6 md:py-16">
+      <section className={`py-6 md:py-16 ${darkMode ? "bg-slate-900" : "bg-white"}`}>
         <div className="mx-auto px-6 md:px-20">
           <div className="text-center mb-6">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-3">
+            <h2 className={`text-3xl md:text-4xl font-bold mb-3 ${darkMode ? "text-white" : "text-gray-900"}`}>
               Everything you need to access better
             </h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            <p className={`text-lg max-w-2xl mx-auto ${darkMode ? "text-slate-300" : "text-gray-600"}`}>
               Comprehensive assessment tools designed for modern education
             </p>
           </div>
@@ -568,17 +619,19 @@ const LandingPage = () => {
             {features.map((feature, index) => (
               <div
                 key={index}
-                className="bg-white border border-gray-200 rounded-xl p-4 hover:shadow-lg transition-shadow"
+                className={`border rounded-xl p-4 hover:shadow-lg transition-shadow ${
+                  darkMode ? "bg-slate-800 border-slate-700" : "bg-white border-gray-200"
+                }`}
               >
                 <div className="w-full flex justify-center mb-3">
                   <div className="w-12 h-12 bg-blue-50 rounded-lg flex items-center justify-center">
                     <div className="text-blue-600">{feature.icon}</div>
                   </div>
                 </div>
-                <h3 className="w-full text-center font-semibold text-gray-900 mb-2">
+                <h3 className={`w-full text-center font-semibold mb-2 ${darkMode ? "text-white" : "text-gray-900"}`}>
                   {feature.title}
                 </h3>
-                <p className="w-full text-center text-sm text-gray-600 leading-relaxed">
+                <p className={`w-full text-center text-sm leading-relaxed ${darkMode ? "text-slate-300" : "text-gray-600"}`}>
                   {feature.description}
                 </p>
               </div>
@@ -588,14 +641,14 @@ const LandingPage = () => {
       </section>
 
       {/* Personalized Insights Section */}
-      <section className="bg-white py-6 md:py-16">
+      <section className={`py-6 md:py-16 ${darkMode ? "bg-slate-900" : "bg-white"}`}>
         <div className="mx-auto px-6 md:px-20">
           <div className="text-center mb-10">
-            <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900 mb-3">
+            <h2 className={`text-3xl md:text-4xl font-extrabold mb-3 ${darkMode ? "text-white" : "text-gray-900"}`}>
               Personalized{" "}
               <span className="text-blue-600">Insights & Tools</span>
             </h2>
-            <p className="text-sm md:text-base text-gray-600 max-w-2xl mx-auto">
+            <p className={`text-sm md:text-base max-w-2xl mx-auto ${darkMode ? "text-slate-300" : "text-gray-600"}`}>
               Customized features for students, instructors, and admins giving
               every role the exact features and data they need.
             </p>
@@ -606,10 +659,10 @@ const LandingPage = () => {
             {/* Student Dashboard */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
               <div>
-                <h3 className="text-2xl font-bold text-gray-900 mb-4">
+                <h3 className={`text-2xl font-bold mb-4 ${darkMode ? "text-white" : "text-gray-900"}`}>
                   Student Dashboard
                 </h3>
-                <p className="text-gray-600 mb-6 leading-relaxed">
+                <p className={`mb-6 leading-relaxed ${darkMode ? "text-slate-300" : "text-gray-600"}`}>
                   Clean, intuitive interface for tracking progress, results, and
                   personalized study recommendations with real-time analytics.
                 </p>
@@ -623,7 +676,7 @@ const LandingPage = () => {
                         aria-hidden="true"
                       />
                     </div>
-                    <span className="text-sm text-gray-700">
+                    <span className={`text-sm ${darkMode ? "text-slate-300" : "text-gray-700"}`}>
                       Progress tracking with visual analytics
                     </span>
                   </li>
@@ -634,7 +687,7 @@ const LandingPage = () => {
                         aria-hidden="true"
                       />
                     </div>
-                    <span className="text-sm text-gray-700">
+                    <span className={`text-sm ${darkMode ? "text-slate-300" : "text-gray-700"}`}>
                       AI-powered study recommendations
                     </span>
                   </li>
@@ -645,7 +698,7 @@ const LandingPage = () => {
                         aria-hidden="true"
                       />
                     </div>
-                    <span className="text-sm text-gray-700">
+                    <span className={`text-sm ${darkMode ? "text-slate-300" : "text-gray-700"}`}>
                       Performance insights and weak area identification
                     </span>
                   </li>
@@ -660,7 +713,7 @@ const LandingPage = () => {
                 </button>
               </div>
 
-              <div className="rounded-2xl overflow-hidden border border-gray-100 shadow-sm">
+              <div className={`rounded-2xl overflow-hidden border shadow-sm ${darkMode ? "border-slate-700" : "border-gray-100"}`}>
                 <img
                   src="/landing page image.png"
                   alt="Student dashboard showing progress tracking, study recommendations, and performance analytics"
@@ -675,10 +728,10 @@ const LandingPage = () => {
             {/* Instructor Dashboard */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
               <div className="lg:order-2">
-                <h3 className="text-2xl font-bold text-gray-900 mb-4">
+                <h3 className={`text-2xl font-bold mb-4 ${darkMode ? "text-white" : "text-gray-900"}`}>
                   Instructor Dashboard
                 </h3>
-                <p className="text-gray-600 mb-6 leading-relaxed">
+                <p className={`mb-6 leading-relaxed ${darkMode ? "text-slate-300" : "text-gray-600"}`}>
                   Comprehensive exam creation and management tools with advanced
                   analytics and automated grading capabilities.
                 </p>
@@ -692,7 +745,7 @@ const LandingPage = () => {
                         aria-hidden="true"
                       />
                     </div>
-                    <span className="text-sm text-gray-700">
+                    <span className={`text-sm ${darkMode ? "text-slate-300" : "text-gray-700"}`}>
                       Question bank management and AI generation
                     </span>
                   </li>
@@ -703,7 +756,7 @@ const LandingPage = () => {
                         aria-hidden="true"
                       />
                     </div>
-                    <span className="text-sm text-gray-700">
+                    <span className={`text-sm ${darkMode ? "text-slate-300" : "text-gray-700"}`}>
                       Real-time proctoring and integrity monitoring
                     </span>
                   </li>
@@ -714,22 +767,14 @@ const LandingPage = () => {
                         aria-hidden="true"
                       />
                     </div>
-                    <span className="text-sm text-gray-700">
+                    <span className={`text-sm ${darkMode ? "text-slate-300" : "text-gray-700"}`}>
                       Automated grading with detailed analytics
                     </span>
                   </li>
                 </ul>
-
-                {/* Demo CTA */}
-                <button
-                  onClick={() => navigate("/demo/instructor")}
-                  className="bg-purple-600 text-white px-6 py-3 rounded-lg hover:bg-purple-700 font-medium transition-colors"
-                >
-                  See Instructor Demo →
-                </button>
               </div>
 
-              <div className="lg:order-1 rounded-2xl overflow-hidden border border-gray-100 shadow-sm">
+              <div className={`lg:order-1 rounded-2xl overflow-hidden border shadow-sm ${darkMode ? "border-slate-700" : "border-gray-100"}`}>
                 <img
                   src="/landing page image.png"
                   alt="Instructor dashboard showing exam creation tools, analytics, and grading interface"
@@ -744,10 +789,10 @@ const LandingPage = () => {
             {/* Admin Dashboard */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
               <div>
-                <h3 className="text-2xl font-bold text-gray-900 mb-4">
+                <h3 className={`text-2xl font-bold mb-4 ${darkMode ? "text-white" : "text-gray-900"}`}>
                   Admin Dashboard
                 </h3>
-                <p className="text-gray-600 mb-6 leading-relaxed">
+                <p className={`mb-6 leading-relaxed ${darkMode ? "text-slate-300" : "text-gray-600"}`}>
                   Enterprise-level management console with comprehensive
                   reporting, user management, and system analytics.
                 </p>
@@ -761,7 +806,7 @@ const LandingPage = () => {
                         aria-hidden="true"
                       />
                     </div>
-                    <span className="text-sm text-gray-700">
+                    <span className={`text-sm ${darkMode ? "text-slate-300" : "text-gray-700"}`}>
                       Institution-wide analytics and reporting
                     </span>
                   </li>
@@ -772,7 +817,7 @@ const LandingPage = () => {
                         aria-hidden="true"
                       />
                     </div>
-                    <span className="text-sm text-gray-700">
+                    <span className={`text-sm ${darkMode ? "text-slate-300" : "text-gray-700"}`}>
                       User management and role-based permissions
                     </span>
                   </li>
@@ -783,22 +828,14 @@ const LandingPage = () => {
                         aria-hidden="true"
                       />
                     </div>
-                    <span className="text-sm text-gray-700">
+                    <span className={`text-sm ${darkMode ? "text-slate-300" : "text-gray-700"}`}>
                       System monitoring and security oversight
                     </span>
                   </li>
                 </ul>
-
-                {/* Demo CTA */}
-                <button
-                  onClick={() => navigate("/demo/admin")}
-                  className="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 font-medium transition-colors"
-                >
-                  See Admin Demo →
-                </button>
               </div>
 
-              <div className="rounded-2xl overflow-hidden border border-gray-100 shadow-sm">
+              <div className={`rounded-2xl overflow-hidden border shadow-sm ${darkMode ? "border-slate-700" : "border-gray-100"}`}>
                 <img
                   src="/landing page image.png"
                   alt="Admin dashboard showing system analytics, user management, and institutional reporting"
@@ -824,17 +861,17 @@ const LandingPage = () => {
       </section>
 
       {/* Timeline Feed Section */}
-      <section id="timeline" className="bg-gray-50 py-6 md:py-16">
+      <section id="timeline" className={`py-6 md:py-16 ${darkMode ? "bg-slate-800" : "bg-gray-50"}`}>
         <div className="mx-auto px-6 md:px-20">
           {/* Section Header */}
           <div className="text-center mb-10">
             <div className="inline-block bg-blue-50 text-blue-700 px-3 py-1 rounded-full text-xs font-medium mb-4">
               Timeline Feed
             </div>
-            <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900 mb-3">
+            <h2 className={`text-3xl md:text-4xl font-extrabold mb-3 ${darkMode ? "text-white" : "text-gray-900"}`}>
               Latest Updates
             </h2>
-            <p className="text-sm md:text-base text-gray-600 max-w-2xl mx-auto">
+            <p className={`text-sm md:text-base max-w-2xl mx-auto ${darkMode ? "text-slate-300" : "text-gray-600"}`}>
               Product announcements, milestones, and improvements from the
               AssessAcad team.
             </p>
@@ -848,7 +885,7 @@ const LandingPage = () => {
 
           {!timelineLoading && timelineError && (
             <div className="text-center py-10">
-              <p className="text-gray-600">{timelineError}</p>
+              <p className={darkMode ? "text-slate-300" : "text-gray-600"}>{timelineError}</p>
             </div>
           )}
 
@@ -859,28 +896,28 @@ const LandingPage = () => {
       </section>
 
       {/* Testimonials Section */}
-      <section id="testimonials" className="bg-white py-6 md:py-16">
+      <section id="testimonials" className={`py-6 md:py-16 ${darkMode ? "bg-slate-900" : "bg-white"}`}>
         <div className="mx-auto px-6 md:px-20">
           {/* Section Header */}
           <div className="text-center mb-10">
             <div className="inline-block bg-blue-50 text-blue-700 px-3 py-1 rounded-full text-xs font-medium mb-4">
               Testimonials
             </div>
-            <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900 mb-3">
+            <h2 className={`text-3xl md:text-4xl font-extrabold mb-3 ${darkMode ? "text-white" : "text-gray-900"}`}>
               Trusted by Leading Institutions
             </h2>
-            <p className="text-sm md:text-base text-gray-600 max-w-2xl mx-auto">
+            <p className={`text-sm md:text-base max-w-2xl mx-auto ${darkMode ? "text-slate-300" : "text-gray-600"}`}>
               See what educators and learners say about AssessAcad
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {/* Testimonial 1 */}
-            <div className="bg-gray-50 rounded-2xl p-4">
+            <div className={`rounded-2xl p-4 ${darkMode ? "bg-slate-800" : "bg-gray-50"}`}>
               <div className="w-full flex items-center mb-3">
                 <div className="text-blue-600 text-3xl font-bold">99</div>
               </div>
-              <blockquote className="w-full text-gray-700 mb-3 leading-relaxed">
+              <blockquote className={`w-full mb-3 leading-relaxed ${darkMode ? "text-slate-300" : "text-gray-700"}`}>
                 "assess acad has transformed how we conduct online assessments.
                 The AI proctoring gives us confidence in exam integrity while
                 the automated grading saves hours of work."
@@ -890,10 +927,10 @@ const LandingPage = () => {
                   <span className="text-blue-600 font-semibold">DR</span>
                 </div>
                 <div>
-                  <div className="font-semibold text-gray-900">
+                  <div className={`font-semibold ${darkMode ? "text-white" : "text-gray-900"}`}>
                     Dr. Sarah Mitchell
                   </div>
-                  <div className="text-gray-600 text-sm">
+                  <div className={`text-sm ${darkMode ? "text-slate-400" : "text-gray-600"}`}>
                     Professor, Stanford University
                   </div>
                 </div>
@@ -901,11 +938,11 @@ const LandingPage = () => {
             </div>
 
             {/* Testimonial 2 */}
-            <div className="bg-gray-50 rounded-2xl p-4">
+            <div className={`rounded-2xl p-4 ${darkMode ? "bg-slate-800" : "bg-gray-50"}`}>
               <div className="w-full flex items-center mb-3">
                 <div className="text-blue-600 text-3xl font-bold">99</div>
               </div>
-              <blockquote className="w-full text-gray-700 mb-3 leading-relaxed">
+              <blockquote className={`w-full mb-3 leading-relaxed ${darkMode ? "text-slate-300" : "text-gray-700"}`}>
                 "The platform is incredibly user-friendly. Students love the
                 clean interface and I appreciate the detailed analytics that
                 help me understand their performance better."
@@ -915,10 +952,10 @@ const LandingPage = () => {
                   <span className="text-green-600 font-semibold">MJ</span>
                 </div>
                 <div>
-                  <div className="font-semibold text-gray-900">
+                  <div className={`font-semibold ${darkMode ? "text-white" : "text-gray-900"}`}>
                     Michael Johnson
                   </div>
-                  <div className="text-gray-600 text-sm">
+                  <div className={`text-sm ${darkMode ? "text-slate-400" : "text-gray-600"}`}>
                     High School Teacher, NYC
                   </div>
                 </div>
@@ -926,11 +963,11 @@ const LandingPage = () => {
             </div>
 
             {/* Testimonial 3 */}
-            <div className="bg-gray-50 rounded-2xl p-4">
+            <div className={`rounded-2xl p-4 ${darkMode ? "bg-slate-800" : "bg-gray-50"}`}>
               <div className="w-full flex items-center mb-3">
                 <div className="text-blue-600 text-3xl font-bold">99</div>
               </div>
-              <blockquote className="w-full text-gray-700 mb-3 leading-relaxed">
+              <blockquote className={`w-full mb-3 leading-relaxed ${darkMode ? "text-slate-300" : "text-gray-700"}`}>
                 "As an IT administrator, I'm impressed by the platform's
                 security features and reliability. Zero downtime during our peak
                 exam periods."
@@ -940,8 +977,8 @@ const LandingPage = () => {
                   <span className="text-purple-600 font-semibold">LC</span>
                 </div>
                 <div>
-                  <div className="font-semibold text-gray-900">Lisa Chen</div>
-                  <div className="text-gray-600 text-sm">
+                  <div className={`font-semibold ${darkMode ? "text-white" : "text-gray-900"}`}>Lisa Chen</div>
+                  <div className={`text-sm ${darkMode ? "text-slate-400" : "text-gray-600"}`}>
                     IT Director, UC Berkeley
                   </div>
                 </div>

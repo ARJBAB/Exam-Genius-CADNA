@@ -4,6 +4,7 @@ import Sidebar from "../components/Layout/Sidebar";
 import Header from "../components/Layout/Header";
 import { apiClient, API_ENDPOINTS } from "../config/api";
 import { useNavigate } from "react-router-dom";
+import { useTheme } from "../context/ThemeContext.jsx";
 
 // ─── Toggle ───────────────────────────────────────────────────────────────────
 const Toggle = ({ value, onChange, disabled }) => (
@@ -829,15 +830,7 @@ const EditProfileModal = ({ profile, userId, onClose, onSaved }) => {
 const StudentSettings = () => {
   const navigate = useNavigate();
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [darkMode, setDarkMode] = useState(() => {
-    try {
-      return (
-        JSON.parse(localStorage.getItem("userPrefs") || "{}").darkMode ?? false
-      );
-    } catch {
-      return false;
-    }
-  });
+  const { darkMode, setDarkMode } = useTheme();
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showPasswordModal, setShowPasswordModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
@@ -976,14 +969,9 @@ const StudentSettings = () => {
     }
   };
 
-  // ── Dark mode (persisted locally) ──────────────────────────────────────────
+  // ── Dark mode (shared app-wide theme) ───────────────────────────────────────
   const handleDarkMode = (val) => {
     setDarkMode(val);
-    const prefs = JSON.parse(localStorage.getItem("userPrefs") || "{}");
-    localStorage.setItem(
-      "userPrefs",
-      JSON.stringify({ ...prefs, darkMode: val }),
-    );
   };
 
   // ── Delete account ──────────────────────────────────────────────────────────
@@ -1083,6 +1071,7 @@ const StudentSettings = () => {
           isOpen={sidebarOpen}
           userRole="student"
           onClose={() => setSidebarOpen(false)}
+          darkMode={darkMode}
         />
 
         <div className="flex-1 lg:ml-64" style={{ padding: "32px 16px" }}>

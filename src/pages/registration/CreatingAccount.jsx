@@ -1,8 +1,11 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useTheme } from "../../context/ThemeContext.jsx";
+import LogoLink from "../../components/LogoLink.jsx";
 
 const CreatingAccount = () => {
   const navigate = useNavigate();
+  const { darkMode } = useTheme();
 
   useEffect(() => {
     // Simulate account creation process
@@ -14,11 +17,11 @@ const CreatingAccount = () => {
   }, [navigate]);
 
   return (
-    <div className="min-h-screen bg-gray-100 flex items-center justify-center p-4">
-      <div className="bg-white rounded-lg shadow-sm w-full max-w-md p-8">
+    <div className={`min-h-screen flex items-center justify-center p-4 ${darkMode ? "bg-slate-900" : "bg-gray-100"}`}>
+      <div className={`rounded-lg shadow-sm w-full max-w-md p-8 ${darkMode ? "bg-slate-800" : "bg-white"}`}>
         {/* Logo */}
         <div className="mb-12">
-          <img src="/Logo icon.png" alt="Exam Genius" className="w-24 h-auto" />
+          <LogoLink className="w-24 h-auto" alt="Exam Genius" />
         </div>
 
         {/* Loading Animation */}
@@ -31,10 +34,10 @@ const CreatingAccount = () => {
           </div>
 
           {/* Status Text */}
-          <h2 className="text-lg font-semibold text-gray-900 mb-2">
+          <h2 className={`text-lg font-semibold mb-2 ${darkMode ? "text-white" : "text-gray-900"}`}>
             Creating your account…
           </h2>
-          <p className="text-gray-600 text-sm">
+          <p className={`text-sm ${darkMode ? "text-slate-300" : "text-gray-600"}`}>
             Please wait while we set things up
           </p>
         </div>

@@ -54,6 +54,8 @@ const CreateExamPage      = lazy(() => import("./dashboards/instructor-dashboard
 
 // Admin
 const AdminDashboard      = lazy(() => import("./dashboards/admindashboard/AdminDashboard.jsx"));
+const AdminSettings       = lazy(() => import("./pages/AdminSettings.jsx"));
+const ComingSoon          = lazy(() => import("./pages/ComingSoon.jsx"));
 
 // ─────────────────────────────────────────────
 // Simple fullscreen loading fallback shown
@@ -114,6 +116,13 @@ function App() {
 
             {/* Admin */}
             <Route path="/admin" element={<ProtectedRoute requiredRole="admin"><AdminDashboard /></ProtectedRoute>} />
+            <Route path="/admin/settings" element={<ProtectedRoute requiredRole="admin"><AdminSettings /></ProtectedRoute>} />
+            <Route path="/admin/users" element={<ProtectedRoute requiredRole="admin"><ComingSoon title="User Management" /></ProtectedRoute>} />
+            <Route path="/admin/management/users" element={<ProtectedRoute requiredRole="admin"><ComingSoon title="Admin Management — Users" /></ProtectedRoute>} />
+            <Route path="/admin/management/roles" element={<ProtectedRoute requiredRole="admin"><ComingSoon title="Admin Management — Roles" /></ProtectedRoute>} />
+            <Route path="/admin/proctoring" element={<ProtectedRoute requiredRole="admin"><ComingSoon title="AI - Proctoring Reports" /></ProtectedRoute>} />
+            <Route path="/admin/payments" element={<ProtectedRoute requiredRole="admin"><ComingSoon title="Payments & Subscription" /></ProtectedRoute>} />
+            <Route path="/admin/certification" element={<ProtectedRoute requiredRole="admin"><ComingSoon title="Certification & Verification" /></ProtectedRoute>} />
 
             {/* 404 */}
             <Route path="*" element={<NotFound />} />

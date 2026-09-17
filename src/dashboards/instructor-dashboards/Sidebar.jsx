@@ -1,8 +1,7 @@
 import { NavLink, useNavigate } from "react-router-dom";
 import { RxDashboard } from "react-icons/rx";
 import { TfiWrite } from "react-icons/tfi";
-import { TbMessageQuestion } from "react-icons/tb";
-import { FiClipboard, FiBarChart2, FiSettings, FiLogOut } from "react-icons/fi";
+import { FiLogOut } from "react-icons/fi";
 import { useState, useContext } from "react";
 import { AuthContext } from "../../context/AuthContextDefinition";
 
@@ -17,21 +16,6 @@ export default function Sidebar({ darkMode = false, isMobile = false }) {
       name: "Create Exam",
       icon: <TfiWrite />,
       link: "/create-exam",
-    },
-    {
-      name: "Question Bank",
-      icon: <TbMessageQuestion />,
-      link: "/instructor/questions",
-    },
-    {
-      name: "Analytics",
-      icon: <FiBarChart2 />,
-      link: "/instructor/analytics",
-    },
-    {
-      name: "Settings",
-      icon: <FiSettings />,
-      link: "/instructor/settings",
     },
   ];
 
@@ -55,10 +39,10 @@ export default function Sidebar({ darkMode = false, isMobile = false }) {
       className={`w-64 h-full flex flex-col ${
         isMobile
           ? darkMode
-            ? "bg-gray-800 text-white"
+            ? "bg-slate-900 text-white"
             : "bg-white text-blue-600"
           : darkMode
-          ? "bg-gray-800 text-white"
+          ? "bg-slate-900 text-white"
           : "bg-[#3B82F6] text-white"
       }`}
     >
@@ -80,17 +64,17 @@ export default function Sidebar({ darkMode = false, isMobile = false }) {
                 isActive
                   ? isMobile
                     ? darkMode
-                      ? "bg-gray-700 shadow-lg"
+                      ? "bg-indigo-600 text-white shadow-lg"
                       : "bg-blue-100 text-blue-600 shadow-md"
                     : darkMode
-                    ? "bg-gray-700 shadow-lg"
+                    ? "bg-indigo-600 text-white shadow-lg"
                     : "bg-white/25 shadow-lg"
                   : isMobile
                   ? darkMode
-                    ? "hover:bg-gray-700 hover:shadow-md"
+                    ? "hover:bg-slate-800 hover:shadow-md"
                     : "hover:bg-blue-50 hover:shadow-md"
                   : darkMode
-                  ? "hover:bg-gray-700 hover:shadow-md"
+                  ? "hover:bg-slate-800 hover:shadow-md"
                   : "hover:bg-white/10 hover:shadow-md"
               }`
             }
@@ -108,10 +92,10 @@ export default function Sidebar({ darkMode = false, isMobile = false }) {
           className={`flex items-center gap-3 px-4 py-3 text-sm rounded-md transition-all duration-200 w-full ${
             isMobile
               ? darkMode
-                ? "hover:bg-gray-700 text-white hover:shadow-md"
+                ? "hover:bg-slate-800 text-white hover:shadow-md"
                 : "hover:bg-blue-50 text-blue-600 hover:shadow-md"
               : darkMode
-              ? "hover:bg-gray-700 text-white hover:shadow-md"
+              ? "hover:bg-slate-800 text-white hover:shadow-md"
               : "hover:bg-white/10 text-white hover:shadow-md"
           }`}
         >

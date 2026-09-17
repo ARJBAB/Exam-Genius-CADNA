@@ -80,6 +80,7 @@ const StudyGuides = () => {
         isOpen={sidebarOpen}
         userRole="student"
         onClose={() => setSidebarOpen(false)}
+        darkMode={darkMode}
       />
 
       <main className="lg:ml-64 lg:mt-16 pt-16 p-4 sm:p-6 lg:p-8">

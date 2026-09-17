@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import LogoLink from "../components/LogoLink.jsx";
 
 const RegistrationSuccess = () => {
   const navigate = useNavigate();
@@ -6,7 +7,7 @@ const RegistrationSuccess = () => {
   return (
     <div className="min-h-screen flex items-center justify-center px-4 bg-white">
       <div className="absolute top-5 left-5">
-        <img src="/Logo icon.png" alt="Exam Genius" className="w-32 h-auto" />
+        <LogoLink className="w-32 h-auto" alt="Exam Genius" />
       </div>
 
       <div className="text-center max-w-md">
