@@ -55,6 +55,7 @@ const CreateExamPage      = lazy(() => import("./dashboards/instructor-dashboard
 // Admin
 const AdminDashboard      = lazy(() => import("./dashboards/admindashboard/AdminDashboard.jsx"));
 const AdminSettings       = lazy(() => import("./pages/AdminSettings.jsx"));
+const AdminStudents       = lazy(() => import("./pages/AdminStudents.jsx"));
 const ComingSoon          = lazy(() => import("./pages/ComingSoon.jsx"));
 
 // ─────────────────────────────────────────────
@@ -76,53 +77,306 @@ function App() {
           <Routes>
             {/* Public */}
             <Route path="/" element={<LandingPage />} />
-            <Route path="/signin" element={<PublicRoute><Signin /></PublicRoute>} />
-            <Route path="/2fa" element={<PublicRoute><TwoFactorAuth /></PublicRoute>} />
+            <Route
+              path="/signin"
+              element={
+                <PublicRoute>
+                  <Signin />
+                </PublicRoute>
+              }
+            />
+            <Route
+              path="/2fa"
+              element={
+                <PublicRoute>
+                  <TwoFactorAuth />
+                </PublicRoute>
+              }
+            />
 
             {/* Registration */}
-            <Route path="/register"                element={<PublicRoute><RoleSelector /></PublicRoute>} />
-            <Route path="/register/account"        element={<PublicRoute><AccountDetails /></PublicRoute>} />
-            <Route path="/register/personal"       element={<PublicRoute><PersonalInfo /></PublicRoute>} />
-            <Route path="/register/security"       element={<PublicRoute><SecurityAndFinalize /></PublicRoute>} />
-            <Route path="/registration/creating"   element={<PublicRoute><CreatingAccount /></PublicRoute>} />
-            <Route path="/registration/complete"   element={<PublicRoute><RegistrationComplete /></PublicRoute>} />
+            <Route
+              path="/register"
+              element={
+                <PublicRoute>
+                  <RoleSelector />
+                </PublicRoute>
+              }
+            />
+            <Route
+              path="/register/account"
+              element={
+                <PublicRoute>
+                  <AccountDetails />
+                </PublicRoute>
+              }
+            />
+            <Route
+              path="/register/personal"
+              element={
+                <PublicRoute>
+                  <PersonalInfo />
+                </PublicRoute>
+              }
+            />
+            <Route
+              path="/register/security"
+              element={
+                <PublicRoute>
+                  <SecurityAndFinalize />
+                </PublicRoute>
+              }
+            />
+            <Route
+              path="/registration/creating"
+              element={
+                <PublicRoute>
+                  <CreatingAccount />
+                </PublicRoute>
+              }
+            />
+            <Route
+              path="/registration/complete"
+              element={
+                <PublicRoute>
+                  <RegistrationComplete />
+                </PublicRoute>
+              }
+            />
 
             {/* Student */}
-            <Route path="/student"         element={<ProtectedRoute requiredRole="student"><StudentDashboard /></ProtectedRoute>} />
-            <Route path="/student/exams"   element={<ProtectedRoute requiredRole="student"><StudentExams /></ProtectedRoute>} />
-            <Route path="/student/results" element={<ProtectedRoute requiredRole="student"><StudentResults /></ProtectedRoute>} />
-            <Route path="/student/settings"element={<ProtectedRoute requiredRole="student"><StudentSettings /></ProtectedRoute>} />
-            <Route path="/student/resources" element={<ProtectedRoute requiredRole="student"><StudyResources /></ProtectedRoute>} />
-            <Route path="/student/resources/practice-quizzes" element={<ProtectedRoute requiredRole="student"><PracticeQuizzes /></ProtectedRoute>} />
-            <Route path="/student/resources/video-lessons" element={<ProtectedRoute requiredRole="student"><VideoLessons /></ProtectedRoute>} />
-            <Route path="/HelpCenter" element={<ProtectedRoute requiredRole="student"><HelpCenter /></ProtectedRoute>} />
-            <Route path="/student/ContactSupport" element={<ProtectedRoute requiredRole="student"><ContactSupport /></ProtectedRoute>} />
-            <Route path="/student/edit-profile" element={<ProtectedRoute requiredRole="student"><EditProfile /></ProtectedRoute>} />
-            <Route path="/student/resources/study-guides" element={<ProtectedRoute requiredRole="student"><StudyGuides /></ProtectedRoute>} />
-            <Route path="/student/resources/past-questions" element={<ProtectedRoute requiredRole="student"><PastQuestions /></ProtectedRoute>} />
+            <Route
+              path="/student"
+              element={
+                <ProtectedRoute requiredRole="student">
+                  <StudentDashboard />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/student/exams"
+              element={
+                <ProtectedRoute requiredRole="student">
+                  <StudentExams />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/student/results"
+              element={
+                <ProtectedRoute requiredRole="student">
+                  <StudentResults />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/student/settings"
+              element={
+                <ProtectedRoute requiredRole="student">
+                  <StudentSettings />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/student/resources"
+              element={
+                <ProtectedRoute requiredRole="student">
+                  <StudyResources />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/student/resources/practice-quizzes"
+              element={
+                <ProtectedRoute requiredRole="student">
+                  <PracticeQuizzes />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/student/resources/video-lessons"
+              element={
+                <ProtectedRoute requiredRole="student">
+                  <VideoLessons />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/HelpCenter"
+              element={
+                <ProtectedRoute requiredRole="student">
+                  <HelpCenter />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/student/ContactSupport"
+              element={
+                <ProtectedRoute requiredRole="student">
+                  <ContactSupport />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/student/edit-profile"
+              element={
+                <ProtectedRoute requiredRole="student">
+                  <EditProfile />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/student/resources/study-guides"
+              element={
+                <ProtectedRoute requiredRole="student">
+                  <StudyGuides />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/student/resources/past-questions"
+              element={
+                <ProtectedRoute requiredRole="student">
+                  <PastQuestions />
+                </ProtectedRoute>
+              }
+            />
 
             {/* Exam flow */}
-            <Route path="/exam/:examId/overview"     element={<ProtectedRoute requiredRole="student"><ExamOverview /></ProtectedRoute>} />
-            <Route path="/exam/:examId/webcam-check" element={<ProtectedRoute requiredRole="student"><WebcamCheck /></ProtectedRoute>} />
-            <Route path="/exam/:examId/taking"       element={<ProtectedRoute requiredRole="student"><ExamTaking /></ProtectedRoute>} />
-            <Route path="/exam/:examId/summary"      element={<ProtectedRoute requiredRole="student"><ExamReview /></ProtectedRoute>} />
-            <Route path="/exam/:examId/result"       element={<ProtectedRoute requiredRole="student"><ExamResult /></ProtectedRoute>} />
-            <Route path="/exam/link/:examLink"       element={<ExamEnrollment />} />
-            <Route path="/exam/:examLink"            element={<ExamEnrollment />} />
+            <Route
+              path="/exam/:examId/overview"
+              element={
+                <ProtectedRoute requiredRole="student">
+                  <ExamOverview />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/exam/:examId/webcam-check"
+              element={
+                <ProtectedRoute requiredRole="student">
+                  <WebcamCheck />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/exam/:examId/taking"
+              element={
+                <ProtectedRoute requiredRole="student">
+                  <ExamTaking />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/exam/:examId/summary"
+              element={
+                <ProtectedRoute requiredRole="student">
+                  <ExamReview />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/exam/:examId/result"
+              element={
+                <ProtectedRoute requiredRole="student">
+                  <ExamResult />
+                </ProtectedRoute>
+              }
+            />
+            <Route path="/exam/link/:examLink" element={<ExamEnrollment />} />
+            <Route path="/exam/:examLink" element={<ExamEnrollment />} />
 
             {/* Instructor */}
-            <Route path="/instructor"  element={<ProtectedRoute requiredRole="instructor"><InstructorDashboard /></ProtectedRoute>} />
-            <Route path="/create-exam" element={<ProtectedRoute requiredRole="instructor"><CreateExamPage /></ProtectedRoute>} />
+            <Route
+              path="/instructor"
+              element={
+                <ProtectedRoute requiredRole="instructor">
+                  <InstructorDashboard />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/create-exam"
+              element={
+                <ProtectedRoute requiredRole="instructor">
+                  <CreateExamPage />
+                </ProtectedRoute>
+              }
+            />
 
             {/* Admin */}
-            <Route path="/admin" element={<ProtectedRoute requiredRole="admin"><AdminDashboard /></ProtectedRoute>} />
-            <Route path="/admin/settings" element={<ProtectedRoute requiredRole="admin"><AdminSettings /></ProtectedRoute>} />
-            <Route path="/admin/users" element={<ProtectedRoute requiredRole="admin"><ComingSoon title="User Management" /></ProtectedRoute>} />
-            <Route path="/admin/management/users" element={<ProtectedRoute requiredRole="admin"><ComingSoon title="Admin Management — Users" /></ProtectedRoute>} />
-            <Route path="/admin/management/roles" element={<ProtectedRoute requiredRole="admin"><ComingSoon title="Admin Management — Roles" /></ProtectedRoute>} />
-            <Route path="/admin/proctoring" element={<ProtectedRoute requiredRole="admin"><ComingSoon title="AI - Proctoring Reports" /></ProtectedRoute>} />
-            <Route path="/admin/payments" element={<ProtectedRoute requiredRole="admin"><ComingSoon title="Payments & Subscription" /></ProtectedRoute>} />
-            <Route path="/admin/certification" element={<ProtectedRoute requiredRole="admin"><ComingSoon title="Certification & Verification" /></ProtectedRoute>} />
+            <Route
+              path="/admin"
+              element={
+                <ProtectedRoute requiredRole="admin">
+                  <AdminDashboard />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/settings"
+              element={
+                <ProtectedRoute requiredRole="admin">
+                  <AdminSettings />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/Students"
+              element={
+                <ProtectedRoute requiredRole="admin">
+                  <AdminStudents />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/Instructors"
+              element={
+                <ProtectedRoute requiredRole="admin">
+                  <ComingSoon title="User Management" />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/management/users"
+              element={
+                <ProtectedRoute requiredRole="admin">
+                  <ComingSoon title="Admin Management — Users" />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/management/roles"
+              element={
+                <ProtectedRoute requiredRole="admin">
+                  <ComingSoon title="Admin Management — Roles" />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/proctoring"
+              element={
+                <ProtectedRoute requiredRole="admin">
+                  <ComingSoon title="AI - Proctoring Reports" />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/payments"
+              element={
+                <ProtectedRoute requiredRole="admin">
+                  <ComingSoon title="Payments & Subscription" />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/certification"
+              element={
+                <ProtectedRoute requiredRole="admin">
+                  <ComingSoon title="Certification & Verification" />
+                </ProtectedRoute>
+              }
+            />
 
             {/* 404 */}
             <Route path="*" element={<NotFound />} />

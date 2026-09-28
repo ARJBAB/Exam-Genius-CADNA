@@ -13,7 +13,7 @@ import {
   IoEyeOutline,
   IoCardOutline,
   IoRibbonOutline,
-  IoChevronDownOutline
+  IoChevronDownOutline,
 } from "react-icons/io5";
 import { useContext } from "react";
 import { AuthContext } from "../../context/AuthContextDefinition.js";
@@ -23,10 +23,18 @@ const Sidebar = ({ isOpen, userRole = "student", onClose, darkMode }) => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const dm = darkMode ?? (() => {
-    try { return JSON.parse(localStorage.getItem('userPrefs') || '{}').darkMode ?? false; }
-    catch { return false; }
-  })();
+  const dm =
+    darkMode ??
+    (() => {
+      try {
+        return (
+          JSON.parse(localStorage.getItem("userPrefs") || "{}").darkMode ??
+          false
+        );
+      } catch {
+        return false;
+      }
+    })();
 
   const handleLogout = () => {
     logout();
@@ -37,8 +45,12 @@ const Sidebar = ({ isOpen, userRole = "student", onClose, darkMode }) => {
     { to: "/student", icon: IoHomeOutline, label: "Dashboard" },
     { to: "/student/exams", icon: IoDocumentTextOutline, label: "Exams" },
     { to: "/student/results", icon: IoStatsChartOutline, label: "Results" },
-    { to: "/student/resources", icon: IoLibraryOutline, label: "Study Resources" },
-    { to: "/student/settings", icon: IoSettingsOutline, label: "Settings" }
+    {
+      to: "/student/resources",
+      icon: IoLibraryOutline,
+      label: "Study Resources",
+    },
+    { to: "/student/settings", icon: IoSettingsOutline, label: "Settings" },
   ];
 
   const adminLinks = [
@@ -46,31 +58,44 @@ const Sidebar = ({ isOpen, userRole = "student", onClose, darkMode }) => {
     {
       icon: IoPeopleOutline,
       label: "User Management",
-      children: [{ to: "/admin/users", label: "All Users" }]
+      children: [
+        { to: "/admin/students", label: "Students" },
+        { to: "/admin/instructors", label: "Instructors" },
+      ],
     },
     {
       icon: IoShieldCheckmarkOutline,
       label: "Admin Management",
       children: [
         { to: "/admin/management/users", label: "Users" },
-        { to: "/admin/management/roles", label: "Roles" }
-      ]
+        { to: "/admin/management/roles", label: "Roles" },
+      ],
     },
-    { to: "/admin/proctoring", icon: IoEyeOutline, label: "AI - Proctoring Reports" },
+    {
+      to: "/admin/proctoring",
+      icon: IoEyeOutline,
+      label: "AI - Proctoring Reports",
+    },
     {
       icon: IoCardOutline,
       label: "Payments & Subscription",
-      children: [{ to: "/admin/payments", label: "Overview" }]
+      children: [{ to: "/admin/payments", label: "Overview" }],
     },
-    { to: "/admin/certification", icon: IoRibbonOutline, label: "Certification & Verification" },
-    { to: "/admin/settings", icon: IoSettingsOutline, label: "Settings" }
+    {
+      to: "/admin/certification",
+      icon: IoRibbonOutline,
+      label: "Certification & Verification",
+    },
+    { to: "/admin/settings", icon: IoSettingsOutline, label: "Settings" },
   ];
 
   const links = userRole === "admin" ? adminLinks : studentLinks;
 
   const isChildActive = (children) =>
     children.some(
-      (child) => location.pathname === child.to || location.pathname.startsWith(child.to)
+      (child) =>
+        location.pathname === child.to ||
+        location.pathname.startsWith(child.to),
     );
 
   const [openDropdowns, setOpenDropdowns] = useState(() => {
@@ -96,15 +121,27 @@ const Sidebar = ({ isOpen, userRole = "student", onClose, darkMode }) => {
   };
 
   // Mobile open background: dark or light
-  const mobileOpenBg   = dm ? "bg-slate-900 border-slate-800" : "bg-white border-gray-200";
+  const mobileOpenBg = dm
+    ? "bg-slate-900 border-slate-800"
+    : "lg:bg-blue-500 lg:border-blue-600";
   const mobileTextBase = dm ? "text-gray-200" : "text-gray-700";
-  const mobileHover    = dm ? "hover:bg-slate-800 hover:text-white" : "hover:bg-gray-100 hover:text-gray-900";
-  const mobileActive   = dm ? "bg-indigo-600 text-white" : "bg-blue-100 text-blue-600";
+  const mobileHover = dm
+    ? "hover:bg-slate-800 hover:text-white"
+    : "hover:bg-gray-100 hover:text-gray-900";
+  const mobileActive = dm
+    ? "bg-indigo-600 text-white"
+    : "bg-blue-100 text-blue-600";
 
   // Desktop background: navy in dark mode, blue in light mode
-  const desktopBg     = dm ? "lg:bg-slate-900 lg:border-slate-800" : "lg:bg-blue-500 lg:border-blue-600";
-  const desktopHover  = dm ? "hover:bg-slate-800 hover:text-white" : "hover:bg-black hover:bg-opacity-20 hover:text-white";
-  const desktopActive = dm ? "bg-indigo-600 text-white" : "bg-black bg-opacity-30 text-white";
+  const desktopBg = dm
+    ? "lg:bg-slate-900 lg:border-slate-800"
+    : "lg:bg-blue-500 lg:border-blue-600";
+  const desktopHover = dm
+    ? "hover:bg-slate-800 hover:text-white"
+    : "hover:bg-black hover:bg-opacity-20 hover:text-white";
+  const desktopActive = dm
+    ? "bg-indigo-600 text-white"
+    : "bg-black bg-opacity-30 text-white";
 
   const closeOnMobile = () => window.innerWidth < 1024 && onClose && onClose();
 
@@ -136,9 +173,10 @@ const Sidebar = ({ isOpen, userRole = "student", onClose, darkMode }) => {
           shadow-lg border-r
           transition-transform duration-300 ease-in-out
           w-64
-          ${isOpen
-            ? `translate-x-0 ${mobileOpenBg}`
-            : `-translate-x-full lg:translate-x-0 ${desktopBg}`
+          ${
+            isOpen
+              ? `translate-x-0 ${mobileOpenBg}`
+              : `-translate-x-full lg:translate-x-0 ${desktopBg}`
           }
         `}
       >
@@ -167,8 +205,48 @@ const Sidebar = ({ isOpen, userRole = "student", onClose, darkMode }) => {
                     </button>
                     {expanded && (
                       <div className="space-y-1">
+                        {item.label === "User Management" && (
+                          <fieldset className="space-y-1">
+                            <legend className="sr-only">User Management</legend>
+                            {item.children.map((child) => {
+                              const childActive =
+                                location.pathname === child.to ||
+                                location.pathname.startsWith(child.to);
+                              return (
+                                <label
+                                  key={child.to}
+                                  className={`flex items-center space-x-3 pl-14 pr-6 py-2 text-sm transition-colors cursor-pointer ${
+                                    childActive
+                                      ? isOpen
+                                        ? mobileActive
+                                        : desktopActive
+                                      : isOpen
+                                        ? `${mobileTextBase} ${mobileHover}`
+                                        : `text-white text-opacity-80 ${desktopHover}`
+                                  }`}
+                                >
+                                  <input
+                                    type="radio"
+                                    name="user-management"
+                                    value={child.to}
+                                    checked={childActive}
+                                    onChange={() => {
+                                      navigate(child.to);
+                                      closeOnMobile();
+                                    }}
+                                    className="h-2 w-2 shrink-0 accent-blue-600"
+                                  />
+                                  <span>{child.label}</span>
+                                </label>
+                              );
+                            })}
+                          </fieldset>
+                        )}
                         {item.children.map((child) => {
-                          const childActive = location.pathname === child.to || location.pathname.startsWith(child.to);
+                          if (item.label === "User Management") return null;
+                          const childActive =
+                            location.pathname === child.to ||
+                            location.pathname.startsWith(child.to);
                           return (
                             <NavLink
                               key={child.to}
@@ -195,7 +273,9 @@ const Sidebar = ({ isOpen, userRole = "student", onClose, darkMode }) => {
               }
 
               const { to, icon: Icon, label } = item;
-              const isActive = location.pathname === to || (to !== `/${userRole}` && location.pathname.startsWith(to));
+              const isActive =
+                location.pathname === to ||
+                (to !== `/${userRole}` && location.pathname.startsWith(to));
               return (
                 <NavLink
                   key={to}
