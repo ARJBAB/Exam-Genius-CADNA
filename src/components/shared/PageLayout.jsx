@@ -11,7 +11,7 @@ import Sidebar from "../Layout/Sidebar.jsx";
  *   <div className={`min-h-screen ${darkMode ? 'bg-gray-900' : 'bg-gray-50'}`}>
  *     <Header onMenuToggle={...} title="..." darkMode={darkMode} onDarkModeToggle={toggleDarkMode} />
  *     <Sidebar isOpen={sidebarOpen} userRole="student" onClose={...} />
- *     <main className="lg:ml-64 pt-20 px-4 sm:px-6 lg:px-8 py-6">
+ *     <main className="lg:ml-60 pt-20 px-4 sm:px-6 lg:px-8 py-6">
  *       {children}
  *     </main>
  *   </div>
@@ -30,6 +30,7 @@ import Sidebar from "../Layout/Sidebar.jsx";
 const PageLayout = ({
   title,
   userRole = "student",
+  showHeaderSearch = false,
   mainClass = "px-4 sm:px-6 lg:px-8 py-6",
   children,
 }) => {
@@ -41,6 +42,7 @@ const PageLayout = ({
       <Header
         onMenuToggle={() => setSidebarOpen((prev) => !prev)}
         title={title}
+        showSearch={showHeaderSearch}
         darkMode={darkMode}
         onDarkModeToggle={toggleDarkMode}
       />
@@ -50,7 +52,7 @@ const PageLayout = ({
         onClose={() => setSidebarOpen(false)}
         darkMode={darkMode}
       />
-      <main className={`lg:ml-64 pt-20 ${mainClass}`}>{children}</main>
+      <main className={`lg:ml-60 pt-20 ${mainClass}`}>{children}</main>
     </div>
   );
 };

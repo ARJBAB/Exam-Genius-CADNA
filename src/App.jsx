@@ -30,6 +30,7 @@ const StudentDashboard    = lazy(() => import("./dashboards/studentdashboard/Stu
 const StudentExams        = lazy(() => import("./pages/studentexams/StudentExams.jsx"));
 const StudentResults      = lazy(() => import("./pages/studentresults/StudentResults.jsx"));
 const StudentSettings     = lazy(() => import("./pages/StudentSettings.jsx"));
+const DiscoverPage        = lazy(() => import("./pages/student/Discover.jsx"));
 const StudyResources = lazy(() => import("./pages/studyresources/StudyResources.jsx"));
 const PracticeQuizzes = lazy(() => import("./pages/studyresources/PracticeQuizzes.jsx"));
 const VideoLessons = lazy(() => import("./pages/studyresources/VideoLessons.jsx")); 
@@ -89,6 +90,11 @@ function App() {
 
             {/* Student */}
             <Route path="/student"         element={<ProtectedRoute requiredRole="student"><StudentDashboard /></ProtectedRoute>} />
+            <Route path="/student/discover" element={<ProtectedRoute requiredRole="student"><DiscoverPage /></ProtectedRoute>} />
+            <Route path="/student/applications" element={<ProtectedRoute requiredRole="student"><ComingSoon title="Applications" userRole="student" backTo="/student" /></ProtectedRoute>} />
+            <Route path="/student/saved" element={<ProtectedRoute requiredRole="student"><ComingSoon title="Saved" userRole="student" backTo="/student" /></ProtectedRoute>} />
+            <Route path="/student/community" element={<ProtectedRoute requiredRole="student"><ComingSoon title="Community" userRole="student" backTo="/student" /></ProtectedRoute>} />
+            <Route path="/student/post" element={<ProtectedRoute requiredRole="student"><ComingSoon title="Post" userRole="student" backTo="/student" /></ProtectedRoute>} />
             <Route path="/student/exams"   element={<ProtectedRoute requiredRole="student"><StudentExams /></ProtectedRoute>} />
             <Route path="/student/results" element={<ProtectedRoute requiredRole="student"><StudentResults /></ProtectedRoute>} />
             <Route path="/student/settings"element={<ProtectedRoute requiredRole="student"><StudentSettings /></ProtectedRoute>} />
