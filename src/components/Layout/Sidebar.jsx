@@ -2,11 +2,13 @@ import { useState } from "react";
 import { NavLink, useNavigate, useLocation } from "react-router-dom";
 import {
   IoHomeOutline,
+  IoCompassOutline,
   IoDocumentTextOutline,
-  IoStatsChartOutline,
   IoSettingsOutline,
-  IoLibraryOutline,
-  IoChatbubbleOutline,
+  IoBookmarkOutline,
+  IoAddCircleOutline,
+  IoPersonOutline,
+  IoHelpCircleOutline,
   IoLogOutOutline,
   IoPeopleOutline,
   IoShieldCheckmarkOutline,
@@ -35,6 +37,7 @@ const Sidebar = ({ isOpen, userRole = "student", onClose, darkMode }) => {
         return false;
       }
     })();
+  const studentLightMode = userRole === "student" && !dm;
 
   const handleLogout = () => {
     logout();
@@ -43,14 +46,15 @@ const Sidebar = ({ isOpen, userRole = "student", onClose, darkMode }) => {
 
   const studentLinks = [
     { to: "/student", icon: IoHomeOutline, label: "Dashboard" },
-    { to: "/student/exams", icon: IoDocumentTextOutline, label: "Exams" },
-    { to: "/student/results", icon: IoStatsChartOutline, label: "Results" },
-    {
-      to: "/student/resources",
-      icon: IoLibraryOutline,
-      label: "Study Resources",
-    },
+    { to: "/student/discover", icon: IoCompassOutline, label: "Discover" },
+    { to: "/student/applications", icon: IoDocumentTextOutline, label: "Applications" },
+    { to: "/student/saved", icon: IoBookmarkOutline, label: "Saved" },
+    { to: "/student/community", icon: IoPeopleOutline, label: "Community" },
+    { to: "/student/post", icon: IoAddCircleOutline, label: "Post" },
+    { divider: true },
+    { to: "/student/edit-profile", icon: IoPersonOutline, label: "Profile" },
     { to: "/student/settings", icon: IoSettingsOutline, label: "Settings" },
+    { to: "/student/ContactSupport", icon: IoHelpCircleOutline, label: "Help & Support" },
   ];
 
   const adminLinks = [
@@ -121,9 +125,11 @@ const Sidebar = ({ isOpen, userRole = "student", onClose, darkMode }) => {
   };
 
   // Mobile open background: dark or light
-  const mobileOpenBg = dm
-    ? "bg-slate-900 border-slate-800"
-    : "lg:bg-blue-500 lg:border-blue-600";
+  const mobileOpenBg = studentLightMode
+    ? "bg-[#E9EBF8] border-[#d7dbee]"
+    : dm
+      ? "bg-slate-900 border-slate-800"
+      : "lg:bg-blue-500 lg:border-blue-600";
   const mobileTextBase = dm ? "text-gray-200" : "text-gray-700";
   const mobileHover = dm
     ? "hover:bg-slate-800 hover:text-white"
@@ -133,15 +139,21 @@ const Sidebar = ({ isOpen, userRole = "student", onClose, darkMode }) => {
     : "bg-blue-100 text-blue-600";
 
   // Desktop background: navy in dark mode, blue in light mode
-  const desktopBg = dm
-    ? "lg:bg-slate-900 lg:border-slate-800"
-    : "lg:bg-blue-500 lg:border-blue-600";
+  const desktopBg = studentLightMode
+    ? "lg:bg-[#E9EBF8] lg:border-[#d7dbee]"
+    : dm
+      ? "lg:bg-slate-900 lg:border-slate-800"
+      : "lg:bg-blue-500 lg:border-blue-600";
   const desktopHover = dm
     ? "hover:bg-slate-800 hover:text-white"
-    : "hover:bg-black hover:bg-opacity-20 hover:text-white";
+    : studentLightMode
+      ? "hover:bg-[#dce0f3] hover:text-gray-900"
+      : "hover:bg-black hover:bg-opacity-20 hover:text-white";
   const desktopActive = dm
     ? "bg-indigo-600 text-white"
-    : "bg-black bg-opacity-30 text-white";
+    : studentLightMode
+      ? "bg-[#dce0f3] text-blue-700"
+      : "bg-black bg-opacity-30 text-white";
 
   const closeOnMobile = () => window.innerWidth < 1024 && onClose && onClose();
 
@@ -153,7 +165,7 @@ const Sidebar = ({ isOpen, userRole = "student", onClose, darkMode }) => {
           : desktopActive
         : isOpen
           ? `${mobileTextBase} ${mobileHover}`
-          : `text-white text-opacity-80 ${desktopHover}`
+          : `${studentLightMode ? "text-gray-700" : "text-white text-opacity-80"} ${desktopHover}`
     }`;
 
   return (
@@ -172,7 +184,7 @@ const Sidebar = ({ isOpen, userRole = "student", onClose, darkMode }) => {
           fixed top-16 bottom-0 left-0 z-50
           shadow-lg border-r
           transition-transform duration-300 ease-in-out
-          w-64
+          w-60
           ${
             isOpen
               ? `translate-x-0 ${mobileOpenBg}`
@@ -183,6 +195,17 @@ const Sidebar = ({ isOpen, userRole = "student", onClose, darkMode }) => {
         <nav className="space-y-2 flex-1 overflow-y-auto h-full flex flex-col pt-4">
           <div className="flex-1">
             {links.map((item) => {
+              if (item.divider) {
+                return (
+                  <hr
+                    key="student-navigation-divider"
+                    className={`my-3 border-t ${
+                      dm ? "border-slate-700" : "border-[#cbd0e6]"
+                    }`}
+                  />
+                );
+              }
+
               if (item.children) {
                 const Icon = item.icon;
                 const expanded = openDropdowns.has(item.label);
@@ -196,7 +219,7 @@ const Sidebar = ({ isOpen, userRole = "student", onClose, darkMode }) => {
                     >
                       <span className="flex items-center space-x-3">
                         <Icon size={20} />
-                        <span className="font-medium">{item.label}</span>
+                        <span className="text-base font-medium">{item.label}</span>
                       </span>
                       <IoChevronDownOutline
                         size={16}
@@ -215,7 +238,7 @@ const Sidebar = ({ isOpen, userRole = "student", onClose, darkMode }) => {
                               return (
                                 <label
                                   key={child.to}
-                                  className={`flex items-center space-x-3 pl-14 pr-6 py-2 text-sm transition-colors cursor-pointer ${
+                                  className={`flex items-center space-x-3 pl-14 pr-6 py-2 text-base transition-colors cursor-pointer ${
                                     childActive
                                       ? isOpen
                                         ? mobileActive
@@ -252,7 +275,7 @@ const Sidebar = ({ isOpen, userRole = "student", onClose, darkMode }) => {
                               key={child.to}
                               to={child.to}
                               onClick={closeOnMobile}
-                              className={`block pl-14 pr-6 py-2 text-sm transition-colors ${
+                              className={`block pl-14 pr-6 py-2 text-base transition-colors ${
                                 childActive
                                   ? isOpen
                                     ? mobileActive
@@ -284,7 +307,7 @@ const Sidebar = ({ isOpen, userRole = "student", onClose, darkMode }) => {
                   className={linkClassName(isActive)}
                 >
                   <Icon size={20} />
-                  <span className="font-medium">{label}</span>
+                  <span className="text-base font-medium">{label}</span>
                 </NavLink>
               );
             })}
@@ -296,11 +319,11 @@ const Sidebar = ({ isOpen, userRole = "student", onClose, darkMode }) => {
             className={`flex items-center space-x-3 px-6 py-3 transition-colors mt-auto ${
               isOpen
                 ? `${mobileTextBase} ${mobileHover}`
-                : `text-white text-opacity-80 ${desktopHover}`
+                : `${studentLightMode ? "text-gray-700" : "text-white text-opacity-80"} ${desktopHover}`
             }`}
           >
             <IoLogOutOutline size={20} />
-            <span className="font-medium">Logout</span>
+            <span className="text-base font-medium">Logout</span>
           </button>
         </nav>
       </aside>

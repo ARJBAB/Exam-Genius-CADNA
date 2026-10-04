@@ -44,7 +44,7 @@ const LoadingSpinner = ({
         onClose={() => setSidebarOpen(false)}
         darkMode={darkMode}
       />
-      <main className="lg:ml-64 pt-20 flex items-center justify-center min-h-screen">
+      <main className="lg:ml-60 pt-20 flex items-center justify-center min-h-screen">
         {spinner}
       </main>
     </div>
