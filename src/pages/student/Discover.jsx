@@ -1,4 +1,5 @@
 import { createElement, useMemo, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   IoArrowBackOutline,
   IoArrowForwardOutline,
@@ -77,6 +78,7 @@ const getOrganizationInitials = (organization) =>
     .join("");
 
 const Discover = () => {
+  const navigate = useNavigate();
   const { darkMode } = useTheme();
   const opportunities = MOCK_OPPORTUNITY_RESPONSE.items;
   const [draftFilters, setDraftFilters] = useState(EMPTY_FILTERS);
@@ -414,10 +416,10 @@ const Discover = () => {
 
                     <button
                       type="button"
-                      onClick={() => setSelectedOpportunity(opportunity)}
+                      onClick={() => navigate(`/student/discover/${opportunity.id}/apply`)}
                       className="mt-4 w-full rounded-lg bg-[#0C4094] px-3 py-2 text-sm font-medium text-white transition-colors hover:bg-[#093575]"
                     >
-                      View details
+                      Apply Now
                     </button>
                   </Card>
                 ))}

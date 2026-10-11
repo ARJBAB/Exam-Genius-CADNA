@@ -31,6 +31,9 @@ const StudentExams        = lazy(() => import("./pages/studentexams/StudentExams
 const StudentResults      = lazy(() => import("./pages/studentresults/StudentResults.jsx"));
 const StudentSettings     = lazy(() => import("./pages/StudentSettings.jsx"));
 const DiscoverPage        = lazy(() => import("./pages/student/Discover.jsx"));
+const ApplicationForm     = lazy(() => import("./pages/student/ApplicationForm.jsx"));
+const ApplicationSubmitted = lazy(() => import("./pages/student/ApplicationSubmitted.jsx"));
+const MyApplications = lazy(() => import("./pages/student/MyApplications.jsx"));
 const StudyResources = lazy(() => import("./pages/studyresources/StudyResources.jsx"));
 const PracticeQuizzes = lazy(() => import("./pages/studyresources/PracticeQuizzes.jsx"));
 const VideoLessons = lazy(() => import("./pages/studyresources/VideoLessons.jsx")); 
@@ -91,7 +94,9 @@ function App() {
             {/* Student */}
             <Route path="/student"         element={<ProtectedRoute requiredRole="student"><StudentDashboard /></ProtectedRoute>} />
             <Route path="/student/discover" element={<ProtectedRoute requiredRole="student"><DiscoverPage /></ProtectedRoute>} />
-            <Route path="/student/applications" element={<ProtectedRoute requiredRole="student"><ComingSoon title="Applications" userRole="student" backTo="/student" /></ProtectedRoute>} />
+            <Route path="/student/discover/:opportunityId/apply" element={<ProtectedRoute requiredRole="student"><ApplicationForm /></ProtectedRoute>} />
+            <Route path="/student/discover/:opportunityId/apply/submitted" element={<ProtectedRoute requiredRole="student"><ApplicationSubmitted /></ProtectedRoute>} />
+            <Route path="/student/applications" element={<ProtectedRoute requiredRole="student"><MyApplications /></ProtectedRoute>} />
             <Route path="/student/saved" element={<ProtectedRoute requiredRole="student"><ComingSoon title="Saved" userRole="student" backTo="/student" /></ProtectedRoute>} />
             <Route path="/student/community" element={<ProtectedRoute requiredRole="student"><ComingSoon title="Community" userRole="student" backTo="/student" /></ProtectedRoute>} />
             <Route path="/student/post" element={<ProtectedRoute requiredRole="student"><ComingSoon title="Post" userRole="student" backTo="/student" /></ProtectedRoute>} />
