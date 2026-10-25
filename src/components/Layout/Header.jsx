@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import {
   IoNotificationsOutline,
   IoPersonOutline,
@@ -24,6 +24,7 @@ const Header = ({
   const navigate = useNavigate();
   const { logout, user } = useContext(AuthContext);
   const [avatarLoadFailed, setAvatarLoadFailed] = useState(false);
+  const notificationCount = 0;
 
   const userName =
     [user?.firstName, user?.lastName].filter(Boolean).join(" ") ||
@@ -65,7 +66,7 @@ const Header = ({
         <div className="flex items-center min-w-0 flex-1">
           <button
             onClick={onMenuToggle}
-            className={`lg:hidden p-2 rounded-md flex-shrink-0 mr-3 ${
+            className={`lg:hidden flex h-10 w-10 shrink-0 items-center justify-center rounded-md mr-3 ${
               darkMode ? "hover:bg-gray-700" : "hover:bg-gray-100"
             }`}
           >
@@ -96,8 +97,8 @@ const Header = ({
             </div>
           ) : (
             <>
-              <div className="lg:hidden">
-                <h1 className={`text-lg font-Poppins font-semibold ${
+              <div className="lg:hidden min-w-0 flex-1">
+                <h1 className={`min-w-0 truncate text-base sm:text-lg font-Poppins font-semibold ${
                   darkMode ? "text-white" : "text-[#302711]"
                 }`}>
                   {title || "Dashboard"}
@@ -114,22 +115,24 @@ const Header = ({
           )}
         </div>
 
-        <div className="flex items-center space-x-2 sm:space-x-3 flex-shrink-0">
-          <button className={`p-2 rounded-full border relative ${
+        <div className="flex shrink-0 items-center gap-2 sm:gap-3">
+          <button className={`relative flex h-10 w-10 shrink-0 items-center justify-center rounded-full border ${
             darkMode 
               ? "border-gray-600 hover:bg-gray-700 text-white" 
               : "border-gray-300 hover:bg-gray-100 text-gray-700"
           }`}>
             <IoNotificationsOutline size={20} />
-            <span className="absolute top-0 right-0 bg-red-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center transform translate-x-1 -translate-y-1">
-              0
-            </span>
+            {notificationCount > 0 && (
+              <span className="absolute -right-1 -top-1 flex h-4 min-w-4 translate-x-0 items-center justify-center rounded-full bg-red-500 px-1 text-xs text-white">
+                {notificationCount}
+              </span>
+            )}
           </button>
 
           {onDarkModeToggle && (
             <button
               onClick={onDarkModeToggle}
-              className={`p-2 rounded-full border ${
+              className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full border ${
                 darkMode 
                   ? "border-gray-600 hover:bg-gray-700 text-white" 
                   : "border-gray-300 hover:bg-gray-100 text-gray-700"
@@ -145,7 +148,7 @@ const Header = ({
               onClick={() => setShowProfile((open) => !open)}
               aria-expanded={showProfile}
               aria-haspopup="menu"
-              className={`flex items-center gap-2 rounded-lg px-2 py-1.5 text-left transition-colors sm:gap-3 sm:px-3 ${
+              className={`flex min-h-10 min-w-10 shrink-0 items-center justify-center gap-2 rounded-lg px-1.5 py-1.5 text-left transition-colors sm:justify-start sm:px-3 sm:gap-3 ${
                 darkMode 
                   ? "hover:bg-gray-700 text-white"
                   : "hover:bg-gray-100 text-gray-700"
@@ -165,7 +168,7 @@ const Header = ({
                   {userInitials || <IoPersonOutline size={18} aria-hidden="true" />}
                 </span>
               )}
-              <span className="min-w-0">
+              <span className="hidden min-w-0 sm:block">
                 <span className="block max-w-20 truncate text-xs font-semibold sm:max-w-36 sm:text-sm">
                   {userName}
                 </span>
@@ -179,7 +182,7 @@ const Header = ({
               </span>
               <IoChevronDownOutline
                 size={16}
-                className={`shrink-0 transition-transform ${showProfile ? "rotate-180" : ""}`}
+                className={`hidden shrink-0 transition-transform sm:block ${showProfile ? "rotate-180" : ""}`}
                 aria-hidden="true"
               />
             </button>
@@ -195,7 +198,7 @@ const Header = ({
                     type="button"
                     onClick={handleLogout}
                     role="menuitem"
-                    className={`block w-full text-left px-4 py-2 text-sm text-red-600 ${
+                    className={`block min-h-10 w-full text-left px-4 py-2 text-sm text-red-600 ${
                       darkMode ? "hover:bg-gray-700" : "hover:bg-gray-100"
                     }`}
                   >
