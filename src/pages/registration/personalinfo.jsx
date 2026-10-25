@@ -1,8 +1,11 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { CiUser, CiPhone } from "react-icons/ci";
+import { CiUser } from "react-icons/ci";
 import { HiOutlineMoon, HiOutlineSun } from "react-icons/hi";
+import PhoneInput from "react-phone-number-input";
+import "react-phone-number-input/style.css";
 import { isValidPhone, isValidName } from "../../utils/validation";
+import { getDefaultPhoneCountry } from "../../utils/getDefaultPhoneCountry.js";
 import { useTheme } from "../../context/ThemeContext.jsx";
 import LogoLink from "../../components/LogoLink.jsx";
 
@@ -41,7 +44,7 @@ const PersonalInfo = () => {
       newErrors.lastName = "Last name is required (at least 2 characters)";
     }
     
-    if (!formData.phoneNumber || !isValidPhone(formData.phoneNumber)) {
+    if (!isValidPhone(formData.phoneNumber)) {
       newErrors.phoneNumber = "Please enter a valid phone number";
     }
     
@@ -197,19 +200,22 @@ const PersonalInfo = () => {
               <label className={`block text-xs xs:text-sm font-medium mb-1 sm:mb-2 ${darkMode ? "text-slate-300" : "text-gray-700"}`}>
                 Phone Number
               </label>
-              <div className={`absolute left-3 top-8 sm:top-9 lg:top-11 ${darkMode ? "text-slate-400" : "text-gray-500"}`}>
-                <CiPhone size={18} />
-              </div>
-              <input
-                type="tel"
+              <PhoneInput
+                defaultCountry={getDefaultPhoneCountry()}
                 name="phoneNumber"
                 value={formData.phoneNumber}
-                onChange={handleChange}
-                className={`w-full h-10 xs:h-12 pl-8 xs:pl-10 pr-3 text-sm xs:text-base border rounded-lg focus:outline-none focus:ring-2 ${
-                  errors.phoneNumber ? 'border-red-500 focus:ring-red-500' : darkMode ? 'bg-slate-700 border-slate-600 text-white placeholder-slate-400 focus:ring-[#3B82F6]' : 'bg-white border-gray-300 focus:ring-[#3B82F6]'
-                }`}
-                placeholder="Enter your phone number (e.g., +1234567890)"
+                onChange={(phoneNumber) => {
+                  setFormData(prev => ({ ...prev, phoneNumber: phoneNumber || "" }));
+                  if (errors.phoneNumber) {
+                    setErrors(prev => ({ ...prev, phoneNumber: "" }));
+                  }
+                }}
+                aria-label="Phone Number"
+                placeholder="Enter your phone number"
                 required
+                className={`registration-phone-input h-10 xs:h-12 text-sm xs:text-base ${
+                  darkMode ? 'registration-phone-input-dark' : 'registration-phone-input-light'
+                } ${errors.phoneNumber ? 'registration-phone-input-error' : ''}`}
               />
               {errors.phoneNumber && <p className="text-red-500 text-xs mt-1">{errors.phoneNumber}</p>}
             </div>

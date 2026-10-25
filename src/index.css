@@ -11,3 +11,43 @@
     font-family: 'Poppins', sans-serif;
   }
 }
+
+.registration-phone-input {
+  padding: 0 0.75rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.5rem;
+}
+
+.registration-phone-input:focus-within {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 2px #3b82f6;
+}
+
+.registration-phone-input .PhoneInputInput {
+  flex: 1;
+  min-width: 0;
+  height: 100%;
+  border: 0;
+  outline: none;
+  background: transparent;
+  color: inherit;
+}
+
+.registration-phone-input-light {
+  color: #111827;
+  background-color: #fff;
+}
+
+.registration-phone-input-dark {
+  color: #fff;
+  background-color: #334155;
+  border-color: #475569;
+}
+
+.registration-phone-input-error {
+  border-color: #ef4444;
+}
+
+.registration-phone-input-error:focus-within {
+  box-shadow: 0 0 0 2px #ef4444;
+}

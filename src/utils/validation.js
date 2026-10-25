@@ -1,3 +1,5 @@
+import { isValidPhoneNumber } from "libphonenumber-js";
+
 // Email validation - secure regex pattern
 export const isValidEmail = (email) => {
   if (!email || typeof email !== 'string') return false;
@@ -10,12 +12,10 @@ export const isValidPassword = (password) => {
   return password && password.length >= 8;
 };
 
-// Phone number validation - secure pattern
+// Phone number validation
 export const isValidPhone = (phone) => {
   if (!phone || typeof phone !== 'string') return false;
-  const cleanPhone = phone.replace(/[\s()-]/g, '');
-  const phoneRegex = /^[+]?[1-9]\d{0,14}$/;
-  return phoneRegex.test(cleanPhone);
+  return isValidPhoneNumber(phone);
 };
 
 // Name validation
